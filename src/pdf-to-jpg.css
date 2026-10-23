@@ -1,0 +1,243 @@
+
+.pdf-to-jpg-page .pdf-jpg-heading-icon {
+  width: 54px;
+  height: 54px;
+  display: grid;
+  place-items: center;
+  margin: 0 auto 14px;
+  border-radius: 15px;
+  background: var(--accent-soft, rgba(59, 130, 246, 0.12));
+  color: var(--accent, #2563eb);
+}
+
+.pdf-to-jpg-page .pdf-jpg-add-button,
+.pdf-to-jpg-page .pdf-jpg-add-another {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border: 1px solid var(--border-color, #dfe3e8);
+  border-radius: 10px;
+  background: var(--card-bg, transparent);
+  color: var(--text-color, inherit);
+  font: inherit;
+  cursor: pointer;
+}
+
+.pdf-to-jpg-page .pdf-jpg-add-button:disabled,
+.pdf-to-jpg-page .pdf-jpg-add-another:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.pdf-to-jpg-page .pdf-jpg-preview-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+.pdf-to-jpg-page .pdf-jpg-preview-grid .qt-pdf-card {
+  min-width: 0;
+  width: 100%;
+}
+
+.pdf-to-jpg-page .pdf-jpg-preview-grid .qt-pdf-card-preview {
+  position: relative;
+  min-height: 235px;
+  overflow: hidden;
+}
+
+.pdf-to-jpg-page .pdf-jpg-preview-grid .qt-pdf-card-canvas {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto;
+  object-fit: contain;
+}
+
+.pdf-to-jpg-page .pdf-jpg-add-another {
+  width: 100%;
+  margin-top: 18px;
+  border-style: dashed;
+}
+
+.pdf-to-jpg-page .pdf-jpg-quality {
+  margin-top: 28px;
+}
+
+.pdf-to-jpg-page .pdf-jpg-quality h3 {
+  margin: 0 0 6px;
+}
+
+.pdf-to-jpg-page .pdf-jpg-quality > p {
+  margin: 0 0 16px;
+  color: var(--muted-text, #777);
+  font-size: 14px;
+}
+
+.pdf-to-jpg-page .pdf-jpg-quality-options {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.pdf-to-jpg-page .pdf-jpg-quality-option {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  align-items: flex-start;
+  padding: 15px;
+  border: 1px solid var(--border-color, #dfe3e8);
+  border-radius: 12px;
+  background: transparent;
+  color: var(--text-color, inherit);
+  text-align: left;
+  cursor: pointer;
+}
+
+.pdf-to-jpg-page .pdf-jpg-quality-option span {
+  color: var(--muted-text, #777);
+  font-size: 12px;
+}
+
+.pdf-to-jpg-page .pdf-jpg-quality-option.is-selected {
+  border: 2px solid var(--accent, #2563eb);
+  padding: 14px;
+  background: var(--accent-soft, rgba(59, 130, 246, 0.08));
+}
+
+.pdf-to-jpg-page .pdf-jpg-quality-option:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.pdf-to-jpg-page .pdf-jpg-convert-button {
+  width: 100%;
+  margin-top: 24px;
+}
+
+.pdf-to-jpg-page .pdf-jpg-convert-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.pdf-to-jpg-page .pdf-jpg-progress {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 18px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: var(--card-bg, #f5f6f8);
+  color: var(--text-color, inherit);
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+
+.pdf-to-jpg-page .pdf-jpg-spin {
+  flex-shrink: 0;
+  animation: pdf-jpg-spin 1s linear infinite;
+}
+
+@keyframes pdf-jpg-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.pdf-to-jpg-page .merge-message.is-success {
+  color: #16803d;
+}
+
+.pdf-to-jpg-page .merge-message.is-error {
+  color: #c62828;
+}
+
+.pdf-to-jpg-page .qt-pdf-card-actions {
+  opacity: 0;
+  transition: opacity 160ms ease;
+}
+
+.pdf-to-jpg-page .qt-pdf-card-preview:hover .qt-pdf-card-actions,
+.pdf-to-jpg-page .qt-pdf-card-preview:focus-within .qt-pdf-card-actions {
+  opacity: 1;
+}
+
+@media (hover: none) {
+  .pdf-to-jpg-page .qt-pdf-card-actions {
+    opacity: 1;
+  }
+}
+
+@media (max-width: 600px) {
+  .pdf-to-jpg-page .pdf-jpg-quality-options {
+    grid-template-columns: 1fr;
+  }
+
+  .pdf-to-jpg-page .pdf-jpg-preview-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .pdf-to-jpg-page .pdf-jpg-preview-grid .qt-pdf-card-preview {
+    min-height: 180px;
+  }
+}
+
+
+/* PDF to JPG — follow the shared Compress PDF layout */
+
+.pdf-to-jpg-page .merge-heading {
+  align-items: center;
+}
+
+.pdf-to-jpg-page .merge-heading > div:last-child {
+  min-width: 0;
+}
+
+.pdf-to-jpg-page .pdf-jpg-preview-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 20px;
+  margin-top: 18px;
+}
+
+.pdf-to-jpg-page .pdf-jpg-preview-grid .qt-pdf-card {
+  min-width: 0;
+  width: 100%;
+}
+
+.pdf-to-jpg-page .pdf-jpg-quality {
+  margin-top: 28px;
+}
+
+.pdf-to-jpg-page .pdf-jpg-progress {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 16px;
+  padding: 12px 14px;
+  border: 1px solid var(--border-color, #e5e7eb);
+  border-radius: 10px;
+  color: var(--text-color, #1f2937);
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+
+.pdf-to-jpg-page .merge-footer {
+  align-items: center;
+}
+
+.pdf-to-jpg-page .merge-submit-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+@media (max-width: 600px) {
+  .pdf-to-jpg-page .pdf-jpg-preview-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+}

@@ -1,0 +1,1949 @@
+
+/* =========================================================
+   QUICKTOOLS — WATERMARK PDF
+   Fresh layout matching the QuickTools Split PDF screenshot
+   ========================================================= */
+
+/* Page and centered content */
+.watermark-tool-page {
+  min-height: 100vh;
+  background: var(--page-bg, #f6f7fc);
+  color: var(--text, #20243a);
+  padding-bottom: 48px;
+}
+
+.watermark-tool-page .watermark-container {
+  width: min(950px, calc(100% - 40px));
+  max-width: 950px;
+  margin: 0 auto;
+  padding-top: 36px;
+  box-sizing: border-box;
+}
+
+.watermark-tool-page .merge-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 34px;
+  color: #20243a;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 650;
+  transition: color 0.2s ease;
+}
+
+.watermark-tool-page .merge-back:hover {
+  color: #7557dc;
+}
+
+/* Page heading */
+.watermark-tool-page .merge-heading {
+  display: flex;
+  align-items: center;
+  gap: 17px;
+  margin: 0 0 32px;
+}
+
+.watermark-tool-page .merge-heading-icon {
+  width: 63px;
+  height: 63px;
+  flex: 0 0 63px;
+  display: grid;
+  place-items: center;
+  border-radius: 19px;
+  background: #eee8ff;
+  color: #7557dc;
+}
+
+.watermark-tool-page .merge-heading-icon svg {
+  width: 27px;
+  height: 27px;
+}
+
+.watermark-tool-page .merge-heading > div:last-child {
+  min-width: 0;
+}
+
+.watermark-tool-page .merge-eyebrow {
+  display: block;
+  margin-bottom: 6px;
+  color: #7557dc;
+  font-size: 11px;
+  font-weight: 750;
+  letter-spacing: 1.5px;
+}
+
+.watermark-tool-page .merge-heading h1 {
+  margin: 0;
+  color: #20243a;
+  font-size: clamp(29px, 4vw, 37px);
+  font-weight: 750;
+  line-height: 1.2;
+  letter-spacing: -1px;
+}
+
+.watermark-tool-page .merge-heading p {
+  margin: 10px 0 0;
+  color: #737b94;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+/* Main upload card */
+.watermark-upload-workspace {
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 24px;
+  box-sizing: border-box;
+  overflow: hidden;
+  background: #fff;
+  border: 1px solid #e6e8f1;
+  border-radius: 21px;
+  box-shadow: 0 12px 38px rgba(32, 36, 70, 0.045);
+}
+
+.watermark-tool-page .merge-workspace-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.watermark-tool-page .merge-workspace-top h2 {
+  margin: 0;
+  color: #20243a;
+  font-size: 18px;
+  font-weight: 750;
+  line-height: 1.4;
+}
+
+.watermark-tool-page .merge-workspace-top p {
+  margin: 5px 0 0;
+  color: #737b94;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+/* Large dashed upload area */
+.watermark-upload-workspace .merge-dropzone {
+  position: relative;
+  width: 100%;
+  min-height: 235px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 11px;
+  padding: 28px 20px;
+  box-sizing: border-box;
+  border: 1px dashed #d4caff;
+  border-radius: 17px;
+  background: #faf9ff;
+  color: #20243a;
+  text-align: center;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.watermark-upload-workspace .merge-dropzone:hover,
+.watermark-upload-workspace .merge-dropzone.is-dragging {
+  background: #f5f2ff;
+  border-color: #9278f0;
+  box-shadow: inset 0 0 0 1px #9278f022;
+}
+
+.watermark-upload-workspace .merge-upload-icon {
+  width: 59px;
+  height: 59px;
+  display: grid;
+  place-items: center;
+  margin-bottom: 3px;
+  border-radius: 18px;
+  background: #eee8ff;
+  color: #7557dc;
+}
+
+.watermark-upload-workspace .merge-upload-icon svg {
+  width: 27px;
+  height: 27px;
+}
+
+.watermark-upload-workspace .merge-dropzone strong {
+  color: #20243a;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.watermark-upload-workspace .merge-dropzone > span:not(.merge-upload-icon) {
+  color: #737b94;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.watermark-upload-workspace .merge-dropzone small {
+  color: #737b94;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+/* Error and success messages */
+.watermark-tool-page .merge-message {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  font-size: 12px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+.watermark-tool-page .merge-error {
+  margin-top: 15px;
+  color: #b42335;
+  background: #fff2f3;
+  border: 1px solid #ffd8dd;
+}
+
+.watermark-tool-page .merge-success {
+  color: #087f52;
+  background: #edfff6;
+  border: 1px solid #c4f0da;
+}
+
+.watermark-tool-page .merge-message svg {
+  flex: 0 0 auto;
+  margin-top: 1px;
+}
+
+/* Privacy message — same alignment as the screenshot */
+.watermark-tool-page .merge-privacy {
+  width: 100%;
+  max-width: 950px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 10px;
+  margin: 22px auto 43px;
+  color: #737b94;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+.watermark-tool-page .merge-privacy svg {
+  flex: 0 0 auto;
+  margin-top: 2px;
+  color: #08a66b;
+}
+
+.watermark-tool-page .merge-privacy strong {
+  color: #20243a;
+  font-weight: 750;
+}
+
+/* How-to section */
+.watermark-tool-page .merge-how {
+  width: 100%;
+  max-width: 950px;
+  margin: 0 auto;
+}
+
+.watermark-tool-page .merge-how > h2 {
+  margin: 0 0 21px;
+  color: #20243a;
+  font-size: 22px;
+  font-weight: 750;
+  letter-spacing: -0.4px;
+}
+
+.watermark-tool-page .merge-steps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.watermark-tool-page .merge-steps > div {
+  min-width: 0;
+  padding: 21px;
+  background: #fff;
+  border: 1px solid #e6e8f1;
+  border-radius: 16px;
+}
+
+.watermark-tool-page .merge-step-number {
+  display: inline-block;
+  margin-bottom: 15px;
+  color: #7557dc;
+  font-size: 12px;
+  font-weight: 750;
+  letter-spacing: 1px;
+}
+
+.watermark-tool-page .merge-steps h3 {
+  margin: 0 0 8px;
+  color: #20243a;
+  font-size: 14px;
+  font-weight: 750;
+}
+
+.watermark-tool-page .merge-steps p {
+  margin: 0;
+  color: #737b94;
+  font-size: 12px;
+  line-height: 1.7;
+}
+
+/* =========================================================
+   EDITOR — shown after PDFs are selected
+   ========================================================= */
+
+.watermark-editor {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 340px;
+  align-items: start;
+  gap: 20px;
+  margin-top: 0;
+}
+
+.watermark-preview-area,
+.watermark-settings-panel {
+  min-width: 0;
+  background: #fff;
+  border: 1px solid #e6e8f1;
+  border-radius: 18px;
+  box-shadow: 0 8px 28px rgba(32, 36, 70, 0.04);
+}
+
+.watermark-preview-area {
+  min-height: 490px;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.watermark-preview-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 17px;
+  border-bottom: 1px solid #e9eaf2;
+}
+
+.watermark-preview-topbar > div {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.watermark-preview-topbar strong {
+  color: #20243a;
+  font-size: 16px;
+  font-weight: 750;
+}
+
+.watermark-preview-topbar span {
+  color: #737b94;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.watermark-preview-topbar .merge-add-button {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 39px;
+  padding: 9px 13px;
+  border: 1px solid #ded5ff;
+  border-radius: 9px;
+  background: #f5f2ff;
+  color: #7557dc;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.watermark-preview-topbar .merge-add-button:hover {
+  background: #ece6ff;
+}
+
+.watermark-multi-note {
+  margin-top: 14px;
+  padding: 11px 13px;
+  border: 1px solid #ded5ff;
+  border-radius: 10px;
+  background: #faf8ff;
+  color: #55448f;
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.watermark-loading-line {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-top: 14px;
+  color: #737b94;
+  font-size: 12px;
+}
+
+.watermark-preview-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(145px, 1fr));
+  align-items: start;
+  gap: 14px;
+  padding-top: 18px;
+}
+
+.watermark-preview-card {
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid #e5e7f0;
+  border-radius: 12px;
+  background: #fff;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.watermark-preview-card:hover {
+  border-color: #c8bafa;
+  box-shadow: 0 7px 20px rgba(42, 31, 98, 0.08);
+}
+
+.watermark-preview-sheet {
+  position: relative;
+  height: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 12px 8px 20px;
+  box-sizing: border-box;
+  background: #f3f4f9;
+}
+
+.watermark-preview-sheet canvas {
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  background: #fff;
+  box-shadow: 0 2px 8px #00000012;
+}
+
+.watermark-preview-loading,
+.watermark-preview-failed {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: #f3f4f9;
+  color: #737b94;
+  font-size: 11px;
+}
+
+.watermark-preview-mark {
+  position: absolute;
+  z-index: 2;
+  max-width: 75%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  pointer-events: none;
+  line-height: 1.1;
+  text-shadow: 0 0 1px #ffffff40;
+}
+
+.watermark-preview-mark.is-underlined {
+  text-decoration: underline;
+}
+
+.watermark-preview-mark img {
+  display: block;
+  width: 48px;
+  max-width: 100%;
+  max-height: 34px;
+  object-fit: contain;
+}
+
+.watermark-page-number {
+  position: absolute;
+  left: 8px;
+  bottom: 6px;
+  padding: 3px 5px;
+  border-radius: 4px;
+  background: #ffffffdf;
+  color: #666879;
+  font-size: 9px;
+}
+
+.watermark-preview-caption {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  min-width: 0;
+  padding: 9px;
+  border-top: 1px solid #e9eaf2;
+}
+
+.watermark-preview-caption > div {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  color: #737b94;
+}
+
+.watermark-preview-caption span {
+  overflow: hidden;
+  color: #303047;
+  font-size: 10px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.watermark-preview-caption button {
+  width: 27px;
+  height: 27px;
+  flex: 0 0 27px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: 7px;
+  background: #f5f5fa;
+  color: #737b94;
+  cursor: pointer;
+}
+
+.watermark-preview-caption button:hover {
+  background: #fff0f0;
+  color: #d04444;
+}
+
+.watermark-preview-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 18px;
+  padding-top: 15px;
+  border-top: 1px solid #e9eaf2;
+  color: #737b94;
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+.watermark-clear-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 7px 0 7px 8px;
+  border: 0;
+  background: transparent;
+  color: #737b94;
+  font: inherit;
+  font-size: 11px;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.watermark-clear-link:hover {
+  color: #d04444;
+}
+
+/* Settings panel */
+.watermark-settings-panel {
+  position: sticky;
+  top: 18px;
+  overflow: hidden;
+}
+
+.watermark-panel-heading {
+  padding: 20px 19px 16px;
+}
+
+.watermark-panel-heading h2 {
+  margin: 0 0 6px;
+  color: #20243a;
+  font-size: 18px;
+  font-weight: 750;
+  letter-spacing: -0.4px;
+}
+
+.watermark-panel-heading p {
+  margin: 0;
+  color: #737b94;
+  font-size: 11px;
+  line-height: 1.6;
+}
+
+.watermark-mode-tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border-top: 1px solid #e9eaf2;
+  border-bottom: 1px solid #e9eaf2;
+}
+
+.watermark-mode-tabs button {
+  min-height: 75px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  border: 0;
+  background: #fff;
+  color: #737b94;
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.watermark-mode-tabs button + button {
+  border-left: 1px solid #e9eaf2;
+}
+
+.watermark-mode-tabs button.active {
+  background: #faf8ff;
+  color: #7557dc;
+  box-shadow: inset 0 -2px 0 #7557dc;
+}
+
+.watermark-control-block {
+  min-width: 0;
+  padding: 16px 19px 0;
+}
+
+.watermark-label {
+  display: block;
+  margin: 0 0 8px;
+  color: #303047;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.watermark-text-input {
+  width: 100%;
+  height: 41px;
+  box-sizing: border-box;
+  padding: 0 11px;
+  border: 1px solid #dfe1eb;
+  border-radius: 9px;
+  outline: none;
+  background: #fff;
+  color: #303047;
+  font: inherit;
+  font-size: 12px;
+}
+
+.watermark-text-input:focus,
+.watermark-control-block select:focus,
+.watermark-page-range input:focus {
+  border-color: #9278f0;
+  box-shadow: 0 0 0 3px #7557dc17;
+}
+
+.watermark-format-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.watermark-font-select,
+.watermark-size-select {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.watermark-format-row select {
+  max-width: 120px;
+  padding: 7px 16px 7px 3px;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: #303047;
+  font: inherit;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.watermark-font-select svg {
+  position: absolute;
+  right: 2px;
+  pointer-events: none;
+  color: #737b94;
+}
+
+.watermark-size-select {
+  margin-left: 2px;
+  padding-left: 4px;
+  border-left: 1px solid #e5e6ef;
+}
+
+.watermark-format-btn {
+  width: 30px;
+  height: 31px;
+  display: grid;
+  place-items: center;
+  border: 1px solid transparent;
+  border-radius: 7px;
+  background: transparent;
+  color: #303047;
+  cursor: pointer;
+}
+
+.watermark-format-btn:hover,
+.watermark-format-btn.active {
+  border-color: #ded5ff;
+  background: #f5f2ff;
+  color: #7557dc;
+}
+
+.watermark-color-button {
+  position: relative;
+  width: 30px;
+  height: 31px;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+
+.watermark-color-button > span {
+  width: 17px;
+  height: 17px;
+  border: 1px solid #00000020;
+  border-radius: 4px;
+  box-shadow: inset 0 0 0 2px #fff;
+}
+
+.watermark-color-button input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* Image watermark upload */
+.watermark-image-upload {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px;
+  border: 1px solid #e5e1f5;
+  border-radius: 10px;
+  background: #faf9ff;
+  color: #303047;
+  text-align: left;
+  cursor: pointer;
+}
+
+.watermark-image-upload > span {
+  width: 38px;
+  height: 38px;
+  flex: 0 0 38px;
+  display: grid;
+  place-items: center;
+  border-radius: 9px;
+  background: #eee8ff;
+  color: #7557dc;
+}
+
+.watermark-image-upload > div {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.watermark-image-upload strong {
+  font-size: 12px;
+}
+
+.watermark-image-upload small {
+  color: #737b94;
+  font-size: 10px;
+}
+
+.watermark-image-selected {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  color: #737b94;
+  font-size: 11px;
+}
+
+.watermark-image-selected img {
+  width: 38px;
+  height: 38px;
+  padding: 3px;
+  object-fit: contain;
+  border: 1px solid #e5e7f0;
+  border-radius: 7px;
+}
+
+.watermark-image-selected span {
+  flex: 1;
+}
+
+.watermark-image-selected button {
+  border: 0;
+  background: transparent;
+  color: #737b94;
+  cursor: pointer;
+}
+
+/* Position selector and mosaic */
+.watermark-position-line {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.watermark-position-grid {
+  width: 78px;
+  height: 78px;
+  flex: 0 0 78px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  overflow: hidden;
+  border: 1px solid #d9dbe7;
+  border-radius: 5px;
+  background: #fff;
+}
+
+.watermark-position-grid button {
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-right: 1px dashed #d9dbe7;
+  border-bottom: 1px dashed #d9dbe7;
+  background: transparent;
+  cursor: pointer;
+}
+
+.watermark-position-grid button:nth-child(3n) {
+  border-right: 0;
+}
+
+.watermark-position-grid button:nth-child(n + 7) {
+  border-bottom: 0;
+}
+
+.watermark-position-grid button span {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: transparent;
+}
+
+.watermark-position-grid button.selected,
+.watermark-position-grid button.mosaic-selected {
+  background: #eee8ff;
+}
+
+.watermark-position-grid button.selected span {
+  background: #7557dc;
+}
+
+.watermark-position-grid button.mosaic-selected span {
+  width: 6px;
+  height: 6px;
+  background: #7557dc;
+}
+
+.watermark-position-grid button:focus-visible {
+  outline: 2px solid #7557dc;
+  outline-offset: -2px;
+}
+
+.watermark-mosaic-toggle {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  cursor: pointer;
+}
+
+.watermark-mosaic-toggle input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+.watermark-custom-checkbox {
+  width: 17px;
+  height: 17px;
+  flex: 0 0 17px;
+  border: 1px solid #b8bac8;
+  border-radius: 4px;
+  background: #fff;
+}
+
+.watermark-mosaic-toggle input:checked + .watermark-custom-checkbox {
+  border-color: #7557dc;
+  background: #7557dc;
+  box-shadow: inset 0 0 0 3px #fff;
+}
+
+.watermark-mosaic-toggle > span:last-child {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.watermark-mosaic-toggle strong {
+  color: #303047;
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.watermark-mosaic-toggle small,
+.watermark-pages-block > small,
+.watermark-control-hint {
+  color: #737b94;
+  font-size: 10px;
+  line-height: 1.6;
+}
+
+.watermark-control-hint {
+  margin: 8px 0 0;
+}
+
+/* Transparency and rotation */
+.watermark-two-col {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 12px;
+}
+
+.watermark-two-col label {
+  min-width: 0;
+}
+
+.watermark-control-block select:not(.watermark-format-row select) {
+  width: 100%;
+  min-width: 0;
+  height: 40px;
+  padding: 0 9px;
+  border: 1px solid #dfe1eb;
+  border-radius: 8px;
+  background: #fff;
+  color: #303047;
+  font: inherit;
+  font-size: 11px;
+}
+
+/* Page range */
+.watermark-page-range {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 8px;
+}
+
+.watermark-page-range label {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  border: 1px solid #dfe1eb;
+  border-radius: 8px;
+}
+
+.watermark-page-range label span {
+  padding: 0 7px;
+  color: #737b94;
+  font-size: 10px;
+  white-space: nowrap;
+}
+
+.watermark-page-range input {
+  width: 100%;
+  min-width: 0;
+  height: 37px;
+  padding: 0 5px;
+  border: 0;
+  border-left: 1px solid #e5e6ef;
+  outline: 0;
+  background: #fff;
+  color: #303047;
+  text-align: center;
+  font: inherit;
+  font-size: 12px;
+}
+
+.watermark-pages-block > small {
+  display: block;
+  margin-top: 7px;
+}
+
+/* Layer options */
+.watermark-layer-options {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.watermark-layer-options button {
+  min-width: 0;
+  min-height: 77px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px;
+  border: 1px solid #e5e7f0;
+  border-radius: 10px;
+  background: #fafaff;
+  color: #737b94;
+  font: inherit;
+  cursor: pointer;
+}
+
+.watermark-layer-options button span {
+  max-width: 125px;
+  color: inherit;
+  font-size: 10px;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.watermark-layer-options button.active {
+  border-color: #b9a8fa;
+  background: #f7f4ff;
+  color: #7557dc;
+  box-shadow: 0 0 0 1px #7557dc12;
+}
+
+.watermark-below-icon {
+  transform: rotate(180deg);
+}
+
+/* Messages and apply button */
+.watermark-panel-message {
+  margin: 15px 18px 0;
+  font-size: 11px;
+}
+
+.watermark-submit {
+  width: calc(100% - 36px);
+  min-height: 49px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  margin: 19px 18px 18px;
+  padding: 12px 16px;
+  border: 0;
+  border-radius: 10px;
+  background: #7557dc;
+  color: #fff;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 750;
+  cursor: pointer;
+  box-shadow: 0 5px 14px #7557dc24;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.watermark-submit:hover:not(:disabled) {
+  background: #6545d0;
+  transform: translateY(-1px);
+}
+
+.watermark-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+/* Spinner */
+.watermark-tool-page .merge-spinner {
+  animation: watermark-spin 1s linear infinite;
+}
+
+@keyframes watermark-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 1000px) {
+  .watermark-editor {
+    grid-template-columns: minmax(0, 1fr) 315px;
+    gap: 14px;
+  }
+
+  .watermark-preview-area {
+    padding: 15px;
+  }
+
+  .watermark-preview-grid {
+    grid-template-columns: repeat(auto-fill, minmax(125px, 1fr));
+    gap: 10px;
+  }
+
+  .watermark-control-block {
+    padding-right: 14px;
+    padding-left: 14px;
+  }
+
+  .watermark-panel-heading {
+    padding-right: 14px;
+    padding-left: 14px;
+  }
+
+  .watermark-submit {
+    width: calc(100% - 28px);
+    margin: 16px 14px 14px;
+  }
+
+  .watermark-panel-message {
+    margin-right: 14px;
+    margin-left: 14px;
+  }
+}
+
+@media (max-width: 760px) {
+  .watermark-tool-page .watermark-container {
+    width: calc(100% - 32px);
+    padding-top: 24px;
+  }
+
+  .watermark-tool-page .merge-back {
+    margin-bottom: 25px;
+  }
+
+  .watermark-tool-page .merge-heading {
+    gap: 13px;
+    margin-bottom: 24px;
+  }
+
+  .watermark-tool-page .merge-heading-icon {
+    width: 53px;
+    height: 53px;
+    flex-basis: 53px;
+    border-radius: 15px;
+  }
+
+  .watermark-tool-page .merge-heading h1 {
+    font-size: 29px;
+  }
+
+  .watermark-upload-workspace {
+    padding: 17px;
+    border-radius: 16px;
+  }
+
+  .watermark-upload-workspace .merge-dropzone {
+    min-height: 215px;
+    padding: 24px 14px;
+  }
+
+  .watermark-editor {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .watermark-settings-panel {
+    position: static;
+    order: -1;
+  }
+
+  .watermark-preview-area {
+    min-height: 0;
+  }
+
+  .watermark-preview-grid {
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  }
+
+  .watermark-preview-sheet {
+    height: 205px;
+  }
+
+  .watermark-tool-page .merge-privacy {
+    margin-top: 20px;
+    margin-bottom: 34px;
+  }
+
+  .watermark-tool-page .merge-steps {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .watermark-tool-page .merge-steps > div {
+    padding: 18px;
+  }
+}
+
+@media (max-width: 440px) {
+  .watermark-tool-page .watermark-container {
+    width: calc(100% - 24px);
+    padding-top: 20px;
+  }
+
+  .watermark-tool-page .merge-heading {
+    align-items: flex-start;
+  }
+
+  .watermark-tool-page .merge-heading h1 {
+    font-size: 25px;
+    letter-spacing: -0.6px;
+  }
+
+  .watermark-tool-page .merge-heading p {
+    margin-top: 7px;
+    font-size: 12px;
+  }
+
+  .watermark-tool-page .merge-eyebrow {
+    font-size: 10px;
+  }
+
+  .watermark-upload-workspace {
+    padding: 14px;
+  }
+
+  .watermark-tool-page .merge-workspace-top h2 {
+    font-size: 16px;
+  }
+
+  .watermark-upload-workspace .merge-dropzone {
+    min-height: 205px;
+    gap: 9px;
+  }
+
+  .watermark-upload-workspace .merge-dropzone strong {
+    font-size: 14px;
+  }
+
+  .watermark-upload-workspace .merge-dropzone > span:not(.merge-upload-icon) {
+    font-size: 11px;
+  }
+
+  .watermark-preview-topbar {
+    align-items: flex-start;
+  }
+
+  .watermark-preview-topbar .merge-add-button {
+    padding: 9px;
+    font-size: 11px;
+  }
+
+  .watermark-preview-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 9px;
+  }
+
+  .watermark-preview-sheet {
+    height: 190px;
+  }
+
+  .watermark-preview-foot {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 7px;
+  }
+
+  .watermark-clear-link {
+    padding-left: 0;
+  }
+
+  .watermark-position-line {
+    gap: 10px;
+  }
+
+  .watermark-tool-page .merge-how > h2 {
+    font-size: 20px;
+  }
+}
+
+
+/* PDF selector replacing the multiple-file notice */
+.watermark-file-selector {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin: 15px 0 0;
+}
+
+.watermark-file-select-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex: 1;
+  min-width: 0;
+  height: 43px;
+  gap: 10px;
+  padding: 0 13px;
+  border: 1px solid #ded5ff;
+  border-radius: 10px;
+  background: #faf9ff;
+  color: #7557dc;
+}
+
+.watermark-file-select-wrap > svg:first-child {
+  flex: 0 0 auto;
+}
+
+.watermark-file-select-wrap select {
+  width: 100%;
+  min-width: 0;
+  height: 100%;
+  appearance: none;
+  padding: 0 22px 0 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: #303047;
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.watermark-select-chevron {
+  position: absolute;
+  right: 12px;
+  pointer-events: none;
+}
+
+.watermark-remove-selected {
+  width: 43px;
+  height: 43px;
+  flex: 0 0 43px;
+  display: grid;
+  place-items: center;
+  border: 1px solid #e5e7f0;
+  border-radius: 10px;
+  background: #fff;
+  color: #737b94;
+  cursor: pointer;
+  transition: color 0.2s, background 0.2s, border-color 0.2s;
+}
+
+.watermark-remove-selected:hover:not(:disabled) {
+  border-color: #ffd4d4;
+  background: #fff2f2;
+  color: #d04444;
+}
+
+.watermark-remove-selected:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Replace the old color square with A + color underline */
+.watermark-color-picker {
+  position: relative;
+  width: 39px;
+  height: 38px;
+  flex: 0 0 39px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  border: 1px solid transparent;
+  border-radius: 7px;
+  background: transparent;
+  color: #303047;
+  cursor: pointer;
+}
+
+.watermark-color-picker:hover {
+  border-color: #ded5ff;
+  background: #f5f2ff;
+}
+
+.watermark-color-letter {
+  font-family: Arial, sans-serif;
+  font-size: 19px;
+  font-weight: 700;
+  line-height: 19px;
+}
+
+.watermark-color-underline {
+  width: 18px;
+  height: 4px;
+  border-radius: 2px;
+}
+
+.watermark-color-picker input[type="color"] {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.watermark-color-picker > svg {
+  position: absolute;
+  right: -2px;
+  bottom: 4px;
+  color: #737b94;
+  pointer-events: none;
+}
+
+/* Grey PDF page background like the reference screenshot */
+.watermark-preview-sheet {
+  position: relative;
+  background: #f0f1f7;
+}
+
+.watermark-preview-sheet canvas {
+  position: relative;
+  z-index: 1;
+  background: #fff;
+}
+
+/* Selected position indicator: a dot, not watermark text */
+.watermark-position-dot {
+  position: absolute;
+  z-index: 3;
+  width: 10px;
+  height: 10px;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  background: #7557dc;
+  box-shadow: 0 0 0 1px #7557dc80, 0 1px 4px #00000030;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+/* Hover-to-zoom button */
+.watermark-zoom-button {
+  position: absolute;
+  z-index: 5;
+  top: 10px;
+  right: 10px;
+  width: 37px;
+  height: 37px;
+  display: grid;
+  place-items: center;
+  border: 1px solid #e2dcff;
+  border-radius: 10px;
+  background: #fff;
+  color: #7557dc;
+  opacity: 0;
+  visibility: hidden;
+  transform: scale(0.92);
+  box-shadow: 0 3px 12px #20243a18;
+  cursor: zoom-in;
+  transition:
+    opacity 0.18s ease,
+    visibility 0.18s ease,
+    transform 0.18s ease;
+}
+
+.watermark-preview-card:hover .watermark-zoom-button,
+.watermark-preview-card:focus-within .watermark-zoom-button {
+  opacity: 1;
+  visibility: visible;
+  transform: scale(1);
+}
+
+.watermark-zoom-button:hover {
+  background: #f5f2ff;
+  border-color: #b9a8fa;
+}
+
+@media (hover: none) {
+  .watermark-zoom-button {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+  }
+}
+
+/* Enlarged PDF preview overlay */
+.watermark-zoom-overlay {
+  position: fixed;
+  z-index: 9999;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  box-sizing: border-box;
+  background: rgba(24, 25, 42, 0.72);
+  backdrop-filter: blur(4px);
+}
+
+.watermark-zoom-modal {
+  width: min(900px, 100%);
+  max-height: min(92vh, 1000px);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid #e6e8f1;
+  border-radius: 17px;
+  background: #fff;
+  box-shadow: 0 24px 80px #00000035;
+}
+
+.watermark-zoom-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 20px;
+  border-bottom: 1px solid #e6e8f1;
+  background: #fff;
+}
+
+.watermark-zoom-header > div {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.watermark-zoom-header strong {
+  overflow: hidden;
+  color: #20243a;
+  font-size: 14px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.watermark-zoom-header span {
+  color: #737b94;
+  font-size: 12px;
+}
+
+.watermark-zoom-header button {
+  width: 37px;
+  height: 37px;
+  flex: 0 0 37px;
+  display: grid;
+  place-items: center;
+  border: 1px solid #e6e8f1;
+  border-radius: 9px;
+  background: #fff;
+  color: #737b94;
+  cursor: pointer;
+}
+
+.watermark-zoom-header button:hover {
+  background: #fff2f2;
+  color: #d04444;
+}
+
+.watermark-zoom-content {
+  min-height: 250px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: auto;
+  padding: 24px;
+  box-sizing: border-box;
+  background: #f0f1f7;
+}
+
+.watermark-zoom-canvas {
+  display: block;
+  max-width: 100%;
+  background: #fff;
+  box-shadow: 0 5px 22px #00000020;
+}
+
+.watermark-zoom-error {
+  color: #b42335;
+  font-size: 13px;
+}
+
+@media (max-width: 600px) {
+  .watermark-zoom-overlay {
+    padding: 10px;
+  }
+
+  .watermark-zoom-modal {
+    max-height: 94vh;
+  }
+
+  .watermark-zoom-content {
+    padding: 12px;
+  }
+
+  .watermark-file-select-wrap {
+    padding: 0 9px;
+    gap: 7px;
+  }
+
+  .watermark-file-select-wrap select {
+    font-size: 11px;
+  }
+}
+
+
+/* Buttons shown before a PDF is uploaded */
+.watermark-empty-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid #e8eaf2;
+}
+
+.watermark-empty-actions .watermark-clear-link:disabled {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 10px 12px;
+  border: 0;
+  background: transparent;
+  color: #a7adbd;
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.watermark-empty-actions .watermark-submit:disabled {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-width: 190px;
+  opacity: 0.48;
+  cursor: not-allowed;
+  pointer-events: auto;
+  box-shadow: none;
+  transform: none;
+}
+
+.watermark-empty-actions .watermark-submit:disabled:hover {
+  box-shadow: none;
+  transform: none;
+}
+
+.watermark-zoom-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 240px;
+  padding: 16px;
+  overflow: auto;
+}
+
+.watermark-zoom-page canvas {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  background: #fff;
+  box-shadow: 0 4px 24px rgba(20, 25, 50, 0.16);
+}
+
+.watermark-zoom-page .watermark-preview-loading,
+.watermark-zoom-page .watermark-preview-failed {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 40px 20px;
+}
+
+
+/* ==================================================
+   WATERMARK PDF — BUTTON + PDF PREVIEW ONLY
+   ================================================== */
+
+/* Change PDF button */
+.watermark-change-file {
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.watermark-change-file:focus-visible {
+  outline: 2px solid #7778e8;
+  outline-offset: 3px;
+}
+
+/* Shared PDF preview wrapper */
+.watermark-file-preview .pdf-preview,
+.watermark-file-preview .pdf-preview-card {
+  width: 100%;
+  min-width: 0;
+}
+
+/* PDF preview canvas */
+.watermark-file-preview canvas {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+/* PDF preview action buttons */
+.watermark-preview-controls button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.watermark-preview-controls button:focus-visible {
+  outline: 2px solid #7778e8;
+  outline-offset: 2px;
+}
+
+
+/* =========================================================
+   WATERMARK PDF — PREVIEW, BUTTONS & MESSAGE COLORS
+   Keep this block at the very end of watermark-pdf.css
+   ========================================================= */
+
+/* PDF preview cards — align with the shared QuickTools preview style */
+.watermark-preview-card {
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid #e5e7f0;
+  border-radius: 12px;
+  background: #ffffff;
+  box-shadow: 0 2px 8px rgba(32, 36, 70, 0.04);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.watermark-preview-card:hover {
+  border-color: #c8bafa;
+  box-shadow: 0 6px 18px rgba(42, 31, 98, 0.08);
+}
+
+/* Consistent PDF preview background */
+.watermark-preview-sheet {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  height: 220px;
+  padding: 12px;
+  overflow: hidden;
+  box-sizing: border-box;
+  background: #f0f1f7;
+}
+
+.watermark-preview-sheet canvas {
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  background: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* Preview loading and error states */
+.watermark-preview-loading,
+.watermark-preview-failed {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: #f0f1f7;
+  color: #737b94;
+  font-size: 11px;
+}
+
+/* File information row */
+.watermark-preview-caption {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-width: 0;
+  padding: 10px;
+  border-top: 1px solid #e6e8f1;
+  background: #ffffff;
+}
+
+.watermark-preview-caption > div {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  min-width: 0;
+  color: #737b94;
+}
+
+.watermark-preview-caption span {
+  overflow: hidden;
+  color: #303047;
+  font-size: 11px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Preview card remove button */
+.watermark-preview-caption button {
+  width: 30px;
+  height: 30px;
+  flex: 0 0 30px;
+  display: grid;
+  place-items: center;
+  border: 1px solid #e5e7f0;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #737b94;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.watermark-preview-caption button:hover {
+  border-color: #ffd4d4;
+  background: #fff2f2;
+  color: #d04444;
+}
+
+/* Add PDFs button */
+.watermark-preview-topbar .merge-add-button {
+  min-height: 39px;
+  padding: 9px 13px;
+  border: 1px solid #ded5ff;
+  border-radius: 9px;
+  background: #f5f2ff;
+  color: #7557dc;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.watermark-preview-topbar .merge-add-button:hover {
+  border-color: #c8bafa;
+  background: #ece6ff;
+}
+
+.watermark-preview-topbar .merge-add-button:focus-visible,
+.watermark-preview-caption button:focus-visible,
+.watermark-clear-link:focus-visible,
+.watermark-submit:focus-visible {
+  outline: 2px solid #9278f0;
+  outline-offset: 3px;
+}
+
+/* Clear-all button */
+.watermark-clear-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: transparent;
+  color: #737b94;
+  font: inherit;
+  font-size: 11px;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.watermark-clear-link:hover {
+  background: #fff2f2;
+  color: #d04444;
+}
+
+/* Success and error message backgrounds */
+.watermark-tool-page .merge-error {
+  color: #b42335;
+  background: #fff2f3;
+  border: 1px solid #ffd8dd;
+}
+
+.watermark-tool-page .merge-success {
+  color: #087f52;
+  background: #edfff6;
+  border: 1px solid #c4f0da;
+}
+
+.watermark-tool-page .merge-error svg {
+  color: #d04444;
+}
+
+.watermark-tool-page .merge-success svg {
+  color: #087f52;
+}
+
+/* Apply watermark button */
+.watermark-tool-page .watermark-submit {
+  border: 0;
+  border-radius: 10px;
+  background: #7557dc;
+  color: #ffffff;
+  box-shadow: 0 5px 14px rgba(117, 87, 220, 0.14);
+}
+
+.watermark-tool-page .watermark-submit:hover:not(:disabled) {
+  background: #6545d0;
+}
+
+.watermark-tool-page .watermark-submit:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Responsive preview sizing */
+@media (max-width: 760px) {
+  .watermark-preview-sheet {
+    height: 205px;
+  }
+}
+
+@media (max-width: 440px) {
+  .watermark-preview-sheet {
+    height: 190px;
+    padding: 8px;
+  }
+
+  .watermark-preview-caption {
+    padding: 8px;
+  }
+
+  .watermark-preview-topbar .merge-add-button {
+    padding: 9px 10px;
+  }
+}
