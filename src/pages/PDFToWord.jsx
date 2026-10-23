@@ -13,9 +13,7 @@ import {
 import { Link } from "react-router-dom";
 import PDFPreview from "../components/PDFPreview";
 
-const API_URL = (
-  import.meta.env.VITE_PDF_TO_WORD_API || ""
-).replace(/\/+$/, "");
+const API_URL = "https://quicktools-rmgf.onrender.com"
 
 function formatBytes(bytes) {
   if (bytes < 1024) return `${bytes} B`;

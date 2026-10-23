@@ -16,9 +16,7 @@ import {
 import { Link } from "react-router-dom";
 import "../styles.css";
 
-const API_URL = (
-  import.meta.env.VITE_WORD_TO_PDF_API || ""
-).replace(/\/+$/, "");
+const API_URL = "https://quicktools-rmgf.onrender.com"
 
 const MAX_FILE_SIZE = 50 * 1024 * 1024;
 
