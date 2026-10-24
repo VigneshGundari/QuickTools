@@ -15,6 +15,7 @@
     "@dnd-kit/utilities": "^3.2.2",
     "@pdfsmaller/pdf-encrypt": "^1.2.0",
     "@supabase/supabase-js": "^2.118.0",
+    "@vercel/analytics": "^2.0.1",
     "@wasm-zoo/ghostscript": "^0.7.2",
     "docx": "^9.10.0",
     "jszip": "^3.10.2",
