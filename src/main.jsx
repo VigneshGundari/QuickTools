@@ -28,6 +28,7 @@ import OrganizePDF from "./pages/OrganizePDF";
 import SignPDF from "./pages/SignPDF";
 import ProtectPDF from "./pages/ProtectPDF";
 import WatermarkPDF from "./pages/WatermarkPDF";
+import { Analytics } from "@vercel/analytics/react";
 
 const tools = [
   { name: "Edit PDF", desc: "Add text, notes and shapes to your PDF.", category: "PDF", icon: FilePenLine, tint: "pink", featured: true },
@@ -412,5 +413,6 @@ createRoot(document.getElementById("root")).render(
         />
       </Routes>
     </BrowserRouter>
+    <Analytics />
   </React.StrictMode>
 );
