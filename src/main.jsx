@@ -339,12 +339,90 @@ function App() {
             {filteredTools.length ? <div className="tool-grid">{filteredTools.map((tool) => <ToolCard key={tool.name} tool={tool} onClick={() => openTool(tool)}/>)}</div> : <div className="empty-state"><Search size={28}/><h3>No tools found</h3><p>Try another search or choose a different category.</p><button className="secondary-btn" onClick={() => {setQuery("");setCategory("All tools");}}>Clear filters</button></div>}
             <div className="library-footer"><span>Showing {filteredTools.length} of {tools.length} tools</span><button onClick={() => {setCategory("All tools");setQuery("");}}>Browse everything <ArrowRight size={15}/></button></div>
           </section>
+          
+          <section className="seo-section">
+            <div className="seo-section-inner">
+              <div className="eyebrow">THE QUICKTOOLS GUIDE</div>
 
-          <section className="feature-band">
-            <div className="feature-band-inner"><div className="feature-symbol"><ShieldCheck size={30}/></div><div><div className="eyebrow">BUILT AROUND YOU</div><h2>Useful tools. Less fuss.</h2><p>A straightforward workspace designed to help you finish everyday tasks without a learning curve.</p></div><div className="feature-points"><span><Check size={16}/> Clear and simple</span><span><Check size={16}/> Works across devices</span><span><Check size={16}/> Light and dark themes</span></div></div>
+              <h2>Simple Tools for Everyday File Tasks</h2>
+
+              <p className="seo-intro">
+                QuickTools brings PDF and document utilities together in one
+                convenient place. Combine PDFs, extract pages, reduce file
+                sizes, convert documents, organize pages, add signatures, and
+                password-protect supported PDF files.
+              </p>
+
+              <div className="seo-tool-panel">
+                <h3>Find the Right Tool</h3>
+
+                <div className="seo-tool-grid">
+                  <a href="/merge-pdf">Merge PDF <ArrowRight size={15} /></a>
+                  <a href="/split-pdf">Split PDF <ArrowRight size={15} /></a>
+                  <a href="/compress-pdf">Compress PDF <ArrowRight size={15} /></a>
+                  <a href="/pdf-to-word">PDF to Word <ArrowRight size={15} /></a>
+                  <a href="/word-to-pdf">Word to PDF <ArrowRight size={15} /></a>
+                  <a href="/rotate-pdf">Rotate PDF <ArrowRight size={15} /></a>
+                  <a href="/organize-pdf">Organize PDF <ArrowRight size={15} /></a>
+                  <a href="/pdf-to-jpg">PDF to JPG <ArrowRight size={15} /></a>
+                  <a href="/jpg-to-pdf">JPG to PDF <ArrowRight size={15} /></a>
+                  <a href="/sign-pdf">Sign PDF <ArrowRight size={15} /></a>
+                  <a href="/protect-pdf">Protect PDF <ArrowRight size={15} /></a>
+                </div>
+              </div>
+
+              <div className="seo-faq-section">
+                <h3>Frequently Asked Questions</h3>
+
+                <details className="seo-faq-item">
+                  <summary>What can I do with QuickTools?</summary>
+                  <p>
+                    You can access available tools for combining, splitting,
+                    compressing, converting, organizing, signing, and protecting
+                    PDF documents.
+                  </p>
+                </details>
+
+                <details className="seo-faq-item">
+                  <summary>How do I merge multiple PDF files?</summary>
+                  <p>
+                    Open Merge PDF, select the files you want to combine,
+                    arrange them in the required order, and follow the
+                    instructions to create your combined document.
+                  </p>
+                </details>
+
+                <details className="seo-faq-item">
+                  <summary>Can I extract specific pages from a PDF?</summary>
+                  <p>
+                    Yes. Open Split PDF to work with the pages or page ranges
+                    you need from a supported PDF document.
+                  </p>
+                </details>
+
+                <details className="seo-faq-item">
+                  <summary>How can I reduce a PDF's file size?</summary>
+                  <p>
+                    Use Compress PDF to process a supported document and
+                    reduce its file size.
+                  </p>
+                </details>
+
+                <details className="seo-faq-item">
+                  <summary>Do I need to install software?</summary>
+                  <p>
+                    QuickTools is accessed through your web browser. Processing
+                    requirements can vary by tool, so check the instructions
+                    on the relevant tool page.
+                  </p>
+                </details>
+              </div>
+            </div>
           </section>
+
         </main>
       )}
+      
 
       <footer className="footer">
         <div className="footer-main"><button className="brand footer-brand" onClick={home}><span className="brand-mark"><Zap size={20} fill="currentColor"/></span><span>quick<span className="brand-accent">tools</span><small>MAKE IT SIMPLE</small></span></button><p>Your everyday toolkit for files, images and little tasks.</p><div className="footer-links"><button onClick={() => {home();document.getElementById("tool-library")?.scrollIntoView({behavior:"smooth"});}}>Explore tools</button><button onClick={() => alert("Help and support pages will be added before launch.")}>Help & support</button><button onClick={() => alert("Privacy details will be published before file-processing tools launch.")}>Privacy</button></div></div>
