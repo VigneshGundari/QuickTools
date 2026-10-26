@@ -22,6 +22,7 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import "../styles.css";
+import PageSEO from "../components/PageSEO";
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = pdfWorker;
 
@@ -403,6 +404,13 @@ export default function SplitPDF() {
 
   return (
     <main className="merge-page split-tool-page">
+      
+      <PageSEO
+        title="Split PDF Online Free | QuickTools"
+        description="Split PDF files online for free. Extract selected pages or save individual pages as separate PDF files with QuickTools."
+        path="/split-pdf"
+      />
+
       <div className="merge-container">
         <Link to="/" className="merge-back"><ArrowLeft size={17} />Back to all tools</Link>
         <header className="merge-heading">

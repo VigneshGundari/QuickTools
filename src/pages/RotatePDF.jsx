@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import "../styles.css";
+import PageSEO from "../components/PageSEO";
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = pdfWorker;
 
@@ -398,6 +399,11 @@ export default function RotatePDF() {
 
   return (
     <main className="merge-page rotate-tool-page">
+      <PageSEO
+        title="Rotate PDF Pages Online | QuickTools"
+        description="Rotate PDF pages online to correct sideways or upside-down documents, then save your corrected PDF with QuickTools."
+        path="/rotate-pdf"
+      />
       <div className="merge-container">
         <Link to="/" className="merge-back">
           <ArrowLeft size={17} />

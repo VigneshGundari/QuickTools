@@ -26,6 +26,7 @@ import {
 import { Link } from "react-router-dom";
 import "../styles.css";
 import "../ProtectPDF.css";
+import PageSEO from "../components/PageSEO";
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = pdfWorker;
 
@@ -498,6 +499,11 @@ export default function ProtectPDF() {
 
   return (
     <main className="merge-page protect-tool-page">
+      <PageSEO
+        title="Protect PDF with a Password | QuickTools"
+        description="Protect PDF documents with password encryption using QuickTools to help restrict unauthorized access to your files."
+        path="/protect-pdf"
+      />
       <div className="merge-container protect-tool-inner">
         <Link to="/" className="merge-back">
           <ArrowLeft size={17} /> Back to all tools

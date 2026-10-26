@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import PDFPreview from "../components/PDFPreview";
+import PageSEO from "../components/PageSEO";
 
 import {
   DndContext,
@@ -259,6 +260,11 @@ export default function MergePDF() {
 
   return (
     <main className="merge-page">
+    <PageSEO
+      title="Merge PDF Online Free | QuickTools"
+      description="Merge multiple PDF files into one document online for free. Arrange your PDFs in order and download the combined file with QuickTools."
+      path="/merge-pdf"
+    />
       <div className="merge-container">
         <Link to="/" className="merge-back">
           <ArrowLeft size={17} />

@@ -11,6 +11,7 @@ import {
 import { Link } from "react-router-dom";
 import "../styles.css";
 import "../jpg-to-pdf.css";
+import PageSEO from "../components/PageSEO";
 
 const MAX_FILE_SIZE = 30 * 1024 * 1024;
 
@@ -675,6 +676,11 @@ export default function JPGToPDF() {
       onDragOver={handleDragOver}
       onDrop={handleDrop}
     >
+      <PageSEO
+        title="JPG to PDF Converter Online | QuickTools"
+        description="Convert JPG images into a PDF document online with QuickTools and combine your images into a convenient file."
+        path="/jpg-to-pdf"
+      />
       <div className="merge-container">
         <Link to="/" className="merge-back">
           <ArrowLeft size={17} /> Back to all tools

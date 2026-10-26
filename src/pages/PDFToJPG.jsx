@@ -17,6 +17,7 @@ import { Link } from "react-router-dom";
 import PDFPreview from "../components/PDFPreview";
 import "../styles.css";
 import "../pdf-to-jpg.css";
+import PageSEO from "../components/PageSEO";
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = pdfWorker;
 
@@ -268,6 +269,11 @@ export default function PDFToJPG() {
 
   return (
     <main className="merge-page compress-tool-page pdf-to-jpg-page">
+      <PageSEO
+        title="PDF to JPG Converter Online | QuickTools"
+        description="Convert PDF pages into JPG images online with QuickTools, making your documents easier to use as image files."
+        path="/pdf-to-jpg"
+      />
       <div className="merge-container">
         <Link to="/" className="merge-back">
           <ArrowLeft size={17} />

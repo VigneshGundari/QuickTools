@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import "../styles.css";
+import PageSEO from "../components/PageSEO";
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = pdfWorker;
 
@@ -389,6 +390,11 @@ export default function CompressPDF() {
 
   return (
     <main className="merge-page compress-tool-page">
+      <PageSEO
+        title="Compress PDF Online Free | QuickTools"
+        description="Compress PDF files online to reduce their file size and make documents easier to share with QuickTools."
+        path="/compress-pdf"
+      />
       <div className="merge-container">
         <Link to="/" className="merge-back"><ArrowLeft size={17} />Back to all tools</Link>
         <header className="merge-heading"><div className="merge-heading-icon"><FileText size={27} /></div><div><span className="merge-eyebrow">PDF TOOL</span><h1>Compress PDF</h1><p>Optimize PDF documents and download processed copies.</p></div></header>

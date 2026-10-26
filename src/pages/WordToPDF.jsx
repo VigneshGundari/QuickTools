@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import "../styles.css";
+import PageSEO from "../components/PageSEO";
 
 const API_URL = "https://quicktools-rmgf.onrender.com"
 
@@ -216,6 +217,11 @@ export default function WordToPDF() {
 
   return (
     <main className="merge-page word-pdf-tool-page">
+      <PageSEO
+        title="Word to PDF Converter Online | QuickTools"
+        description="Convert Word documents to PDF files online with QuickTools for easier sharing and consistent document formatting."
+        path="/word-to-pdf"
+      />
       <div className="merge-container">
         <Link to="/" className="merge-back">
           <ArrowLeft size={17} />

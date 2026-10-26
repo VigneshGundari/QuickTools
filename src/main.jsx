@@ -29,6 +29,7 @@ import SignPDF from "./pages/SignPDF";
 import ProtectPDF from "./pages/ProtectPDF";
 import WatermarkPDF from "./pages/WatermarkPDF";
 import { Analytics } from "@vercel/analytics/react";
+import EditPDF from "./pages/EditPDF";
 
 const tools = [
   { name: "Edit PDF", desc: "Add text, notes and shapes to your PDF.", category: "PDF", icon: FilePenLine, tint: "pink", featured: true },
@@ -182,6 +183,13 @@ function App() {
       setActiveTool(null);
       setSelectedFile(null);
       navigate("/watermark-pdf");
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
+    }
+    if (tool.name === "Edit PDF") {
+      setActiveTool(null);
+      setSelectedFile(null);
+      navigate("/edit-pdf");
       window.scrollTo({ top: 0, behavior: "smooth" });
       return;
     }
@@ -407,6 +415,7 @@ createRoot(document.getElementById("root")).render(
         <Route path="/jpg-to-pdf" element={<JPGToPDF />} />
         <Route path="/sign-pdf" element={<SignPDF />} />
         <Route path="/protect-pdf" element={<ProtectPDF />} />
+        <Route path="/edit-pdf" element={<EditPDF />} />
         <Route
           path="/watermark-pdf"
           element={<Navigate to="/" replace />}

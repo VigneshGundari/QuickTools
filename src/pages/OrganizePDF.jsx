@@ -19,6 +19,7 @@ import {
 import { CSS } from "@dnd-kit/utilities";
 import "../styles.css";
 import "../organize-pdf.css";
+import PageSEO from "../components/PageSEO";
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = pdfWorker;
 
@@ -652,6 +653,11 @@ function onDragEnd(event) {
 
   return (
     <main className="merge-page organize-tool-page">
+      <PageSEO
+        title="Organize PDF Pages Online | QuickTools"
+        description="Organize PDF pages online by rearranging and managing your document pages with QuickTools."
+        path="/organize-pdf"
+      />
       <div className="merge-container organize-tool-inner">
         <Link to="/" className="merge-back">
           <ArrowLeft size={17} /> Back to all tools

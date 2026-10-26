@@ -12,6 +12,7 @@ import { createClient } from "@supabase/supabase-js";
 import { QRCodeSVG } from "qrcode.react";
 import "../styles.css";
 import "../sign-pdf.css";
+import PageSEO from "../components/PageSEO";
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = pdfWorker;
 const MAX_FILE_SIZE = 100 * 1024 * 1024;
@@ -640,6 +641,11 @@ export default function SignPDF() {
   }
   return (
     <main className="merge-page sign-tool-page">
+      <PageSEO
+        title="Sign PDF Online Free | QuickTools"
+        description="Sign PDF documents online by adding your signature to a PDF with QuickTools. Prepare signed documents conveniently."
+        path="/sign-pdf"
+      />
       <div className="merge-container sign-tool-inner">
         <Link to="/" className="merge-back"><ArrowLeft size={17} /> Back to all tools</Link>
         <header className="merge-heading">
