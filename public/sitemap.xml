@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <url>
+    <loc>https://quicktools-roan.vercel.app/</loc>
+  </url>
+  <url>
+    <loc>https://quicktools-roan.vercel.app/merge-pdf</loc>
+  </url>
+  <url>
+    <loc>https://quicktools-roan.vercel.app/split-pdf</loc>
+  </url>
+  <url>
+    <loc>https://quicktools-roan.vercel.app/compress-pdf</loc>
+  </url>
+  <url>
+    <loc>https://quicktools-roan.vercel.app/pdf-to-word</loc>
+  </url>
+  <url>
+    <loc>https://quicktools-roan.vercel.app/word-to-pdf</loc>
+  </url>
+  <url>
+    <loc>https://quicktools-roan.vercel.app/rotate-pdf</loc>
+  </url>
+  <url>
+    <loc>https://quicktools-roan.vercel.app/organize-pdf</loc>
+  </url>
+  <url>
+    <loc>https://quicktools-roan.vercel.app/pdf-to-jpg</loc>
+  </url>
+  <url>
+    <loc>https://quicktools-roan.vercel.app/jpg-to-pdf</loc>
+  </url>
+  <url>
+    <loc>https://quicktools-roan.vercel.app/sign-pdf</loc>
+  </url>
+  <url>
+    <loc>https://quicktools-roan.vercel.app/protect-pdf</loc>
+  </url>
+
+</urlset>
