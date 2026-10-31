@@ -4303,10 +4303,12 @@
 }
 
 .edit-pdf-page.epui:has(.edit-pdf-workspace) .edit-pdf-inline-textarea {
-  border: 1px dashed #168cff;
+  border: 1px solid #168cff;
   outline: 0;
-  background: rgb(255 255 255 / 92%);
+  background: transparent;
+  opacity: 1;
   box-sizing: border-box;
+  box-shadow: none;
 }
 
 .edit-pdf-page.epui:has(.edit-pdf-workspace) .edit-pdf-text-hitbox.is-selected {
@@ -6162,6 +6164,25 @@
 .edit-pdf-page.epui:has(.edit-pdf-workspace) .edit-pdf-toolbar-actions {
   position: relative;
   left: -24px;
+}
+
+.edit-pdf-page.epui:has(.edit-pdf-workspace) .edit-pdf-workspace-back {
+  display: inline-flex;
+  min-height: 36px;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 7px;
+  padding: 0 10px;
+  border-right: 1px solid #e1e8f1;
+  color: #43536b;
+  font-size: 12px;
+  font-weight: 650;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.edit-pdf-page.epui:has(.edit-pdf-workspace) .edit-pdf-workspace-back:hover {
+  color: #2168ee;
 }
 
 @media (max-width: 900px) {

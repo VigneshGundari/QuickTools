@@ -397,8 +397,88 @@ async function embedEditorFont(
   return pdfDoc.embedFont(getStandardFontName(standardName));
 }
 
-function getPageBackgroundColor() {
-  return rgb(1, 1, 1);
+function getTextBackgroundColor(canvas, pageRecord, item, cache) {
+  if (!canvas || !pageRecord) return "#ffffff";
+
+  let canvasCache = cache.get(canvas);
+  if (!canvasCache) {
+    canvasCache = new Map();
+    cache.set(canvas, canvasCache);
+  }
+
+  const cacheKey = `${pageRecord.pageNumber}:${item.id}`;
+  if (canvasCache.has(cacheKey)) return canvasCache.get(cacheKey);
+
+  const context = canvas.getContext("2d", { willReadFrequently: true });
+  if (!context) return "#ffffff";
+
+  const scaleX = canvas.width / pageRecord.width;
+  const scaleY = canvas.height / pageRecord.height;
+  const left = item.left * scaleX;
+  const top = item.top * scaleY;
+  const right = (item.left + item.width) * scaleX;
+  const bottom = (item.top + item.height) * scaleY;
+  const offset = Math.max(2, Math.round(3 * Math.min(scaleX, scaleY)));
+  const sampleLeft = Math.max(0, Math.floor(left - offset));
+  const sampleTop = Math.max(0, Math.floor(top - offset));
+  const sampleRight = Math.min(canvas.width, Math.ceil(right + offset));
+  const sampleBottom = Math.min(canvas.height, Math.ceil(bottom + offset));
+  const sampleWidth = sampleRight - sampleLeft;
+  const sampleHeight = sampleBottom - sampleTop;
+  if (sampleWidth <= 0 || sampleHeight <= 0) return "#ffffff";
+
+  const image = context.getImageData(
+    sampleLeft,
+    sampleTop,
+    sampleWidth,
+    sampleHeight
+  );
+  const samples = [];
+  const steps = 12;
+
+  for (let step = 0; step <= steps; step += 1) {
+    const ratio = step / steps;
+    const x = left + (right - left) * ratio;
+    const y = top + (bottom - top) * ratio;
+    samples.push([x, top - offset], [x, bottom + offset]);
+    samples.push([left - offset, y], [right + offset, y]);
+  }
+
+  const colorBuckets = new Map();
+  for (const [sampleX, sampleY] of samples) {
+    const x = Math.max(0, Math.min(sampleWidth - 1, Math.round(sampleX) - sampleLeft));
+    const y = Math.max(0, Math.min(sampleHeight - 1, Math.round(sampleY) - sampleTop));
+    const pixelIndex = (y * sampleWidth + x) * 4;
+    const [red, green, blue, alpha] = image.data.slice(pixelIndex, pixelIndex + 4);
+    if (alpha < 200) continue;
+
+    const bucket = [red, green, blue].map((channel) => Math.round(channel / 16));
+    const key = bucket.join(",");
+    const color = colorBuckets.get(key) || { count: 0, red: 0, green: 0, blue: 0 };
+    color.count += 1;
+    color.red += red;
+    color.green += green;
+    color.blue += blue;
+    colorBuckets.set(key, color);
+  }
+
+  const background = [...colorBuckets.values()].sort(
+    (first, second) => second.count - first.count
+  )[0];
+  if (!background) {
+    canvasCache.set(cacheKey, "#ffffff");
+    return "#ffffff";
+  }
+
+  const color = `#${[background.red, background.green, background.blue]
+    .map((channel) =>
+      Math.round(channel / background.count)
+        .toString(16)
+        .padStart(2, "0")
+    )
+    .join("")}`;
+  canvasCache.set(cacheKey, color);
+  return color;
 }
 
 function createSymbolDataUrl(symbol) {
@@ -455,6 +535,7 @@ function EditPDF() {
   const imageInputRef = useRef(null);
   const customColorInputRef = useRef(null);
   const pageCanvasRefsRef = useRef(new Map());
+  const textBackgroundColorCacheRef = useRef(new WeakMap());
   const pageWrapperRefsRef = useRef(new Map());
   const pageRenderTasksRef = useRef(new Map());
   const panDragRef = useRef(null);
@@ -555,6 +636,7 @@ function EditPDF() {
 
     originalBytesRef.current = null;
     pageRecordsRef.current = [];
+    textBackgroundColorCacheRef.current = new WeakMap();
     editCounterRef.current = 0;
 
     setFile(null);
@@ -594,6 +676,8 @@ function EditPDF() {
     }
 
     // Close the previous PDF document before loading another one.
+    pageRenderTasksRef.current.forEach((task) => task.cancel());
+    pageRenderTasksRef.current.clear();
     if (pdfJsDocumentRef.current) {
       destroyPdfDocument(pdfJsDocumentRef.current);
       pdfJsDocumentRef.current = null;
@@ -606,11 +690,21 @@ function EditPDF() {
     setAddedTexts([]);
     setSelectedAnnotationId(null);
     setSelectedTextId(null);
+    setSelectedAddedTextId(null);
+    setShowTextEditor(false);
+    setEditingText("");
+    setPanMode(false);
+    setAddTextMode(false);
+    setZoom(1);
     setPageNumber(1);
 
     originalBytesRef.current = null;
     pageRecordsRef.current = [];
+    textBackgroundColorCacheRef.current = new WeakMap();
     editCounterRef.current = 0;
+    editHistoryRef.current = [];
+    editRedoHistoryRef.current = [];
+    setHistoryVersion((version) => version + 1);
 
     try {
       const buffer = await selectedFile.arrayBuffer();
@@ -1780,9 +1874,15 @@ function EditPDF() {
           const boxHeight = Math.max(item.height * scaleY, 5);
           const y = pageHeight - boxTop - boxHeight;
 
-          // Visually cover the original text before drawing the replacement.
-          // This is not secure redaction: the original content may remain
-          // recoverable from the PDF.
+          const textBackgroundColor = getTextBackgroundColor(
+            pageCanvasRefsRef.current.get(pageRecord.pageNumber),
+            pageRecord,
+            item,
+            textBackgroundColorCacheRef.current
+          );
+
+          // This visual replacement is not secure redaction; the original
+          // content may remain recoverable from the PDF.
           pdfPage.drawRectangle({
             x: Math.max(0, x - 0.5),
             y: Math.max(0, y - 0.8),
@@ -1794,7 +1894,7 @@ function EditPDF() {
               1,
               Math.min(boxHeight + 1.6, pageHeight - Math.max(0, y - 0.8))
             ),
-            color: getPageBackgroundColor(),
+            color: hexToRgb(textBackgroundColor),
             borderWidth: 0,
           });
 
@@ -2155,6 +2255,18 @@ function EditPDF() {
 
   return (
     <main className="edit-pdf-page epui">
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept=".pdf,application/pdf"
+        hidden
+        onChange={(event) => {
+          const selected = event.target.files?.[0];
+          if (selected) loadPdf(selected);
+          event.target.value = "";
+        }}
+      />
+
       <Link to="/" className="edit-pdf-back">
         <ArrowLeft size={17} />
         Back to all tools
@@ -2177,18 +2289,6 @@ function EditPDF() {
 
       {!file && (
         <section className="edit-pdf-upload-card">
-          <input
-            ref={fileInputRef}
-            type="file"
-            accept=".pdf,application/pdf"
-            hidden
-            onChange={(event) => {
-              const selected = event.target.files?.[0];
-              if (selected) loadPdf(selected);
-              event.target.value = "";
-            }}
-          />
-
           <div className="edit-pdf-card-heading">
             <span className="edit-pdf-eyebrow">EDIT YOUR DOCUMENT</span>
             <h2>Make changes to your PDF</h2>
@@ -2271,6 +2371,14 @@ function EditPDF() {
             </div>
 
             <div className="edit-pdf-toolbar-actions">
+              <a
+                className="edit-pdf-workspace-back"
+                href="https://quicktools-roan.vercel.app/"
+              >
+                <ArrowLeft size={16} aria-hidden="true" />
+                <span>Back to all tools</span>
+              </a>
+
               <div className="edit-pdf-mode-switch" role="group" aria-label="Workspace mode">
                 <button
                   type="button"
@@ -2359,7 +2467,7 @@ function EditPDF() {
               </button>
               <button type="button" className="edit-pdf-tool-button" onClick={() => setZoom(1)} title="Reset zoom"><RotateCcw size={16} /></button>
               <div className="edit-pdf-toolbar-divider" />
-              <button type="button" className="edit-pdf-tool-button edit-pdf-open-button" onClick={() => fileInputRef.current?.click()} title="Open another PDF">
+              <button type="button" className="edit-pdf-tool-button edit-pdf-open-button" onClick={() => fileInputRef.current?.click()} disabled={loading} title="Open another PDF">
                 <Upload size={17} /><span>Open</span>
               </button>
             </div>
@@ -3151,6 +3259,15 @@ function EditPDF() {
                         const previewColor = selected
                           ? textColor
                           : item.color;
+                        const textBackgroundColor =
+                          selected || item.edited || previewing
+                            ? getTextBackgroundColor(
+                                pageCanvasRefsRef.current.get(currentPage.pageNumber),
+                                currentPage,
+                                item,
+                                textBackgroundColorCacheRef.current
+                              )
+                            : undefined;
 
                         const previewWidth = selected
                           ? Math.max(item.width, 24)
@@ -3207,6 +3324,7 @@ function EditPDF() {
                                     textAlign: textAlignment,
                                     fontSize: `${previewFontSize * zoom}px`,
                                     lineHeight: 1.2,
+                                    backgroundColor: textBackgroundColor,
                                   }}
                                   onChange={(event) => {
                                     setEditingText(event.target.value);
@@ -3275,7 +3393,7 @@ function EditPDF() {
                                   ) * zoom}px`,
                                   background:
                                     item.edited || previewing
-                                      ? "#ffffff"
+                                      ? textBackgroundColor
                                       : undefined,
                                   color:
                                     item.edited || previewing
