@@ -680,6 +680,7 @@ export default function JPGToPDF() {
         title="JPG to PDF Converter Online | QuickTools"
         description="Convert JPG images into a PDF document online with QuickTools and combine your images into a convenient file."
         path="/jpg-to-pdf"
+
       />
       <div className="merge-container">
         <Link to="/" className="merge-back">

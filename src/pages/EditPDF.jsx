@@ -65,6 +65,7 @@ import calibriRegular from "../assets/fonts/calibri.ttf?url";
 import calibriBold from "../assets/fonts/calibrib.ttf?url";
 import calibriItalic from "../assets/fonts/calibrii.ttf?url";
 import calibriBoldItalic from "../assets/fonts/calibriz.ttf?url";
+import PageSEO from "../components/PageSEO";
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = pdfWorker;
 
@@ -2255,6 +2256,11 @@ function EditPDF() {
 
   return (
     <main className="edit-pdf-page epui">
+      <PageSEO
+        title="Edit PDF Online Free | QuickTools"
+        description="Edit PDF files online with QuickTools. Change existing text, add text and annotations, and download your updated document."
+        path="/edit-pdf"
+      />
       <input
         ref={fileInputRef}
         type="file"

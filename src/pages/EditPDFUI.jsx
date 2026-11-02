@@ -38,6 +38,7 @@ import {
   Shapes,
 } from "lucide-react";
 import "../EditPDFUI.css";
+import PageSEO from "../components/PageSEO";
 
 const pages = [
   { number: 1, type: "Text and content", active: true },
@@ -177,6 +178,12 @@ function DocumentPreview() {
 export default function EditPDFUI() {
   return (
     <main className="epui">
+      <PageSEO
+        title="PDF Editor Interface Preview | QuickTools"
+        description="Preview the QuickTools PDF editor interface."
+        path="/edit-pdf-ui"
+        robots="noindex, nofollow"
+      />
       {/* Top header and complete editing toolbar */}
       <header className="epui-header">
         <div className="epui-brand">

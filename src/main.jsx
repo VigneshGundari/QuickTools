@@ -12,8 +12,8 @@ import {
   BrowserRouter,
   Routes,
   Route,
-  Navigate,
   useNavigate,
+  Link,
 } from "react-router-dom";
 import "./styles.css";
 import MergePDF from "./pages/MergePDF";
@@ -31,6 +31,11 @@ import WatermarkPDF from "./pages/WatermarkPDF";
 import { Analytics } from "@vercel/analytics/react";
 import EditPDF from "./pages/EditPDF";
 import EditPDFUI from "./pages/EditPDFUI";
+import PageSEO from "./components/PageSEO";
+import InfoPages from "./pages/InfoPages";
+import TextCaseConverter from "./pages/TextCaseConverter";
+import QRCodeGenerator from "./pages/QRCodeGenerator";
+import TextToPDF from "./pages/TextToPDF";
 
 const tools = [
   { name: "Edit PDF", desc: "Add text, notes and shapes to your PDF.", category: "PDF", icon: FilePenLine, tint: "pink", featured: true },
@@ -61,6 +66,7 @@ const tools = [
 const categories = ["All tools", "PDF", "Image", "Document", "Everyday"];
 
 const availableToolNames = new Set([
+  "Watermark PDF",
   "Edit PDF",
   "Merge PDF",
   "Split PDF",
@@ -73,6 +79,9 @@ const availableToolNames = new Set([
   "JPG to PDF",
   "Sign PDF",
   "Protect PDF",
+  "QR Code Generator",
+  "Text Case Converter",
+  "Text to PDF",
 ]);
 
 const isToolAvailable = (tool) => availableToolNames.has(tool.name);
@@ -105,6 +114,19 @@ function App() {
     if (!isToolAvailable(tool)) return;
 
     setQuery("");
+
+    const simpleToolRoutes = {
+      "QR Code Generator": "/qr-code-generator",
+      "Text Case Converter": "/text-case-converter",
+      "Text to PDF": "/text-to-pdf",
+    };
+    if (simpleToolRoutes[tool.name]) {
+      setActiveTool(null);
+      setSelectedFile(null);
+      navigate(simpleToolRoutes[tool.name]);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
+    }
 
     if (tool.name === "Merge PDF") {
       setActiveTool(null);
@@ -216,6 +238,11 @@ function App() {
 
   return (
     <div className={`app ${theme}`}>
+      <PageSEO
+        title="Free Online PDF Tools: Edit, Merge, Compress & Convert | QuickTools"
+        description="Edit, merge, split, compress, sign, and convert PDFs online with QuickTools. Use free PDF, image, and document tools in one simple workspace."
+        path="/"
+      />
       <header className="topbar">
         <div className="nav-wrap">
           <button className="brand" onClick={home} aria-label="QuickTools home">
@@ -277,7 +304,7 @@ function App() {
             <div className="hero-inner">
               <div className="hero-copy">
                 <div className="hero-badge"><Sparkles size={14} /> YOUR EVERYDAY TOOLKIT</div>
-                <h1>Small tasks.<br /><span>Big time saved.</span></h1>
+                <h1>Free online PDF tools.<br /><span>And more for your files.</span></h1>
                 <p className="hero-subtitle">Everything you need to work with PDFs, images and documents — in one simple place.</p>
                 <div className="hero-search">
                   <Search size={20} />
@@ -349,11 +376,50 @@ function App() {
               <h2>Simple Tools for Everyday File Tasks</h2>
 
               <p className="seo-intro">
-                QuickTools brings PDF and document utilities together in one
-                convenient place. Combine PDFs, extract pages, reduce file
-                sizes, convert documents, organize pages, add signatures, and
-                password-protect supported PDF files.
+                QuickTools brings practical PDF tools together in one place.
+                Combine documents, extract or rearrange pages, reduce PDF file
+                size, convert documents and images, or add a signature. Each
+                tool has its own page with instructions for using it.
               </p>
+
+              <div className="seo-topic-grid">
+                <article>
+                  <h3>Organize PDF pages</h3>
+                  <p>
+                    Put documents together with{" "}
+                    <a href="/merge-pdf">Merge PDF</a>, extract or separate
+                    pages with <a href="/split-pdf">Split PDF</a>, or change
+                    page order with <a href="/organize-pdf">Organize PDF</a>.
+                  </p>
+                </article>
+                <article>
+                  <h3>Convert and optimize files</h3>
+                  <p>
+                    Make a smaller document with{" "}
+                    <a href="/compress-pdf">Compress PDF</a>, convert a PDF to
+                    an editable Word document, or save PDF pages as JPG images.
+                  </p>
+                  <p>
+                    <a href="/pdf-to-word">PDF to Word</a>
+                    {" · "}
+                    <a href="/pdf-to-jpg">PDF to JPG</a>
+                    {" · "}
+                    <a href="/jpg-to-pdf">JPG to PDF</a>
+                    {" · "}
+                    <a href="/word-to-pdf">Word to PDF</a>
+                  </p>
+                </article>
+                <article>
+                  <h3>Edit and prepare PDFs</h3>
+                  <p>
+                    Use <a href="/edit-pdf">Edit PDF</a> to update supported
+                    text and add annotations,{" "}
+                    <a href="/sign-pdf">Sign PDF</a> to place a signature, or
+                    <a href="/protect-pdf">Protect PDF</a> to set a document
+                    password.
+                  </p>
+                </article>
+              </div>
 
               <div className="seo-tool-panel">
                 <h3>Find the Right Tool</h3>
@@ -368,8 +434,13 @@ function App() {
                   <a href="/organize-pdf">Organize PDF <ArrowRight size={15} /></a>
                   <a href="/pdf-to-jpg">PDF to JPG <ArrowRight size={15} /></a>
                   <a href="/jpg-to-pdf">JPG to PDF <ArrowRight size={15} /></a>
+                  <a href="/watermark-pdf">Watermark PDF <ArrowRight size={15} /></a>
                   <a href="/sign-pdf">Sign PDF <ArrowRight size={15} /></a>
                   <a href="/protect-pdf">Protect PDF <ArrowRight size={15} /></a>
+                  <a href="/edit-pdf">Edit PDF <ArrowRight size={15} /></a>
+                  <a href="/text-to-pdf">Text to PDF <ArrowRight size={15} /></a>
+                  <a href="/qr-code-generator">QR Code Generator <ArrowRight size={15} /></a>
+                  <a href="/text-case-converter">Text Case Converter <ArrowRight size={15} /></a>
                 </div>
               </div>
 
@@ -379,9 +450,10 @@ function App() {
                 <details className="seo-faq-item">
                   <summary>What can I do with QuickTools?</summary>
                   <p>
-                    You can access available tools for combining, splitting,
-                    compressing, converting, organizing, signing, and protecting
-                    PDF documents.
+                    Use the PDF tools to merge documents, split or organize
+                    pages, compress files, convert between PDF, Word, and JPG,
+                    edit supported text, sign documents, add watermarks, and
+                    set PDF passwords.
                   </p>
                 </details>
 
@@ -389,33 +461,44 @@ function App() {
                   <summary>How do I merge multiple PDF files?</summary>
                   <p>
                     Open Merge PDF, select the files you want to combine,
-                    arrange them in the required order, and follow the
-                    instructions to create your combined document.
+                    drag them into the order you want, then select the merge
+                    action to download a single PDF.
                   </p>
                 </details>
 
                 <details className="seo-faq-item">
                   <summary>Can I extract specific pages from a PDF?</summary>
                   <p>
-                    Yes. Open Split PDF to work with the pages or page ranges
-                    you need from a supported PDF document.
+                    Yes. Open Split PDF to select pages for extraction or split
+                    a document into separate PDF files.
                   </p>
                 </details>
 
                 <details className="seo-faq-item">
                   <summary>How can I reduce a PDF's file size?</summary>
                   <p>
-                    Use Compress PDF to process a supported document and
-                    reduce its file size.
+                    Use Compress PDF and choose an optimization level. The
+                    amount of size reduction depends on the contents of the
+                    document; an already optimized PDF may not get smaller.
                   </p>
                 </details>
 
                 <details className="seo-faq-item">
-                  <summary>Do I need to install software?</summary>
+                  <summary>Can I edit text in a scanned PDF?</summary>
                   <p>
-                    QuickTools is accessed through your web browser. Processing
-                    requirements can vary by tool, so check the instructions
-                    on the relevant tool page.
+                    The Edit PDF tool works with selectable text in supported
+                    PDFs. Scanned pages are images and need OCR before their
+                    text can be edited. The tool's edits are not a substitute
+                    for securely redacting sensitive information.
+                  </p>
+                </details>
+
+                <details className="seo-faq-item">
+                  <summary>Do I need to install an app?</summary>
+                  <p>
+                    No app installation is needed to open QuickTools; use a
+                    modern web browser. Processing differs by tool, so read
+                    that tool's page for details before choosing files.
                   </p>
                 </details>
               </div>
@@ -426,11 +509,50 @@ function App() {
       )}
 
 
-      <footer className="footer">
-        <div className="footer-main"><button className="brand footer-brand" onClick={home}><span className="brand-mark"><Zap size={20} fill="currentColor" /></span><span>quick<span className="brand-accent">tools</span><small>MAKE IT SIMPLE</small></span></button><p>Your everyday toolkit for files, images and little tasks.</p><div className="footer-links"><button onClick={() => { home(); document.getElementById("tool-library")?.scrollIntoView({ behavior: "smooth" }); }}>Explore tools</button><button onClick={() => alert("Help and support pages will be added before launch.")}>Help & support</button><button onClick={() => alert("Privacy details will be published before file-processing tools launch.")}>Privacy</button></div></div>
-        <div className="footer-bottom"><span>© {new Date().getFullYear()} QuickTools. Made to keep things simple.</span><span className="footer-status"><span></span> UI preview</span></div>
-      </footer>
     </div>
+  );
+}
+
+function SiteFooter() {
+  return (
+    <footer className="site-footer">
+      <div className="site-footer-inner">
+        <div className="site-footer-top">
+          <div className="site-footer-brand">
+            <Link to="/" className="brand footer-brand">
+              <span className="brand-mark"><Zap size={20} fill="currentColor" /></span>
+              <span>quick<span className="brand-accent">tools</span><small>MAKE IT SIMPLE</small></span>
+            </Link>
+            <p>Simple tools for everyday PDF and file tasks.</p>
+          </div>
+          <nav className="site-footer-column" aria-label="PDF tools">
+            <h2>PDF tools</h2>
+            <Link to="/merge-pdf">Merge PDF</Link>
+            <Link to="/split-pdf">Split PDF</Link>
+            <Link to="/compress-pdf">Compress PDF</Link>
+            <Link to="/watermark-pdf">Watermark PDF</Link>
+            <Link to="/edit-pdf">Edit PDF</Link>
+          </nav>
+          <nav className="site-footer-column" aria-label="More tools">
+            <h2>More tools</h2>
+            <Link to="/pdf-to-word">PDF to Word</Link>
+            <Link to="/word-to-pdf">Word to PDF</Link>
+            <Link to="/pdf-to-jpg">PDF to JPG</Link>
+            <Link to="/jpg-to-pdf">JPG to PDF</Link>
+          </nav>
+          <nav className="site-footer-column" aria-label="Information">
+            <h2>Information</h2>
+            <Link to="/#tool-library">Explore all tools</Link>
+            <Link to="/support">Help &amp; Support</Link>
+            <Link to="/privacy">Privacy</Link>
+          </nav>
+        </div>
+        <div className="site-footer-bottom">
+          <span>© {new Date().getFullYear()} QuickTools</span>
+          <span>Use each tool’s page for supported formats and processing details.</span>
+        </div>
+      </div>
+    </footer>
   );
 }
 
@@ -495,13 +617,16 @@ createRoot(document.getElementById("root")).render(
         <Route path="/jpg-to-pdf" element={<JPGToPDF />} />
         <Route path="/sign-pdf" element={<SignPDF />} />
         <Route path="/protect-pdf" element={<ProtectPDF />} />
+        <Route path="/watermark-pdf" element={<WatermarkPDF />} />
         <Route path="/edit-pdf" element={<EditPDF />} />
         <Route path="/edit-pdf-ui" element={<EditPDFUI />} />
-        <Route
-          path="/watermark-pdf"
-          element={<Navigate to="/" replace />}
-        />
+        <Route path="/text-case-converter" element={<TextCaseConverter />} />
+        <Route path="/qr-code-generator" element={<QRCodeGenerator />} />
+        <Route path="/text-to-pdf" element={<TextToPDF />} />
+        <Route path="/support" element={<InfoPages page="support" />} />
+        <Route path="/privacy" element={<InfoPages page="privacy" />} />
       </Routes>
+      <SiteFooter />
     </BrowserRouter>
     <Analytics />
   </React.StrictMode>

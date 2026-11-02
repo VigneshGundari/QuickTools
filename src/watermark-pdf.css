@@ -442,6 +442,40 @@
   box-shadow: 0 2px 8px #00000012;
 }
 
+.watermark-preview-page {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.watermark-preview-mark {
+  position: absolute;
+  z-index: 2;
+  max-width: 75%;
+  overflow: hidden;
+  color: #7557dc;
+  font-family: Arial, sans-serif;
+  line-height: 1.1;
+  text-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.watermark-preview-mark.is-underlined {
+  text-decoration: underline;
+}
+
+.watermark-preview-mark img {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  object-fit: contain;
+}
+
 .watermark-preview-loading,
 .watermark-preview-failed {
   position: absolute;
@@ -454,30 +488,6 @@
   background: #f3f4f9;
   color: #737b94;
   font-size: 11px;
-}
-
-.watermark-preview-mark {
-  position: absolute;
-  z-index: 2;
-  max-width: 75%;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  pointer-events: none;
-  line-height: 1.1;
-  text-shadow: 0 0 1px #ffffff40;
-}
-
-.watermark-preview-mark.is-underlined {
-  text-decoration: underline;
-}
-
-.watermark-preview-mark img {
-  display: block;
-  width: 48px;
-  max-width: 100%;
-  max-height: 34px;
-  object-fit: contain;
 }
 
 .watermark-page-number {
@@ -1425,20 +1435,6 @@
   position: relative;
   z-index: 1;
   background: #fff;
-}
-
-/* Selected position indicator: a dot, not watermark text */
-.watermark-position-dot {
-  position: absolute;
-  z-index: 3;
-  width: 10px;
-  height: 10px;
-  border: 2px solid #fff;
-  border-radius: 50%;
-  background: #7557dc;
-  box-shadow: 0 0 0 1px #7557dc80, 0 1px 4px #00000030;
-  transform: translate(-50%, -50%);
-  pointer-events: none;
 }
 
 /* Hover-to-zoom button */

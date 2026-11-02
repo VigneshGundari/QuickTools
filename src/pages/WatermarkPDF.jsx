@@ -11,7 +11,7 @@ import {
 import { Link } from "react-router-dom";
 import "../styles.css";
 import "../watermark-pdf.css";
-import PDFPreview from "../components/PDFPreview";
+import PageSEO from "../components/PageSEO";
 
 pdfjsLib.GlobalWorkerOptions.workerSrc = pdfWorker;
 
@@ -80,15 +80,17 @@ function getPositions(selected, mosaic) {
   return mosaic ? POSITIONS : [POSITIONS.find((position) => position.id === selected) || POSITIONS[0]];
 }
 
-function PreviewTile({ page, settings, onRemove, fileName, onZoom }) {
+function PreviewTile({ page, settings, isMulti, onRemove, fileName, onZoom }) {
   const canvasRef = useRef(null);
   const [loading, setLoading] = useState(true);
   const [failed, setFailed] = useState(false);
+  const [previewScale, setPreviewScale] = useState(0.7);
 
   useEffect(() => {
     let cancelled = false;
     let task;
     let renderTask;
+    let resizeObserver;
 
     async function render() {
       setLoading(true);
@@ -113,6 +115,17 @@ function PreviewTile({ page, settings, onRemove, fileName, onZoom }) {
         canvas.height = Math.ceil(viewport.height * ratio);
         canvas.style.width = `${viewport.width}px`;
         canvas.style.height = `${viewport.height}px`;
+        const updatePreviewScale = () => {
+          if (!cancelled) {
+            setPreviewScale(canvas.getBoundingClientRect().width / viewport.width);
+          }
+        };
+        resizeObserver =
+          typeof ResizeObserver === "undefined"
+            ? null
+            : new ResizeObserver(updatePreviewScale);
+        resizeObserver?.observe(canvas);
+        requestAnimationFrame(updatePreviewScale);
 
         renderTask = pdfPage.render({
           canvasContext: canvas.getContext("2d"),
@@ -134,6 +147,7 @@ function PreviewTile({ page, settings, onRemove, fileName, onZoom }) {
     return () => {
       cancelled = true;
       if (renderTask) renderTask.cancel();
+      resizeObserver?.disconnect();
       if (task) task.destroy().catch(() => {});
     };
   }, [page.file, page.pageNumber]);
@@ -141,14 +155,64 @@ function PreviewTile({ page, settings, onRemove, fileName, onZoom }) {
   const position = POSITIONS.find(
     (item) => item.id === settings.position
   ) || POSITIONS[0];
+  const previewPositions = settings.mosaic ? POSITIONS : [position];
+  const pageInRange =
+    Number(page.pageNumber) >= Number(settings.fromPage) &&
+    Number(page.pageNumber) <= Number(settings.toPage);
+  const showWatermark =
+    (settings.mode === "text" ? Boolean(settings.text.trim()) : Boolean(settings.imageUrl)) &&
+    (isMulti || pageInRange);
+  const fontFamilies = {
+    Helvetica: "Arial, sans-serif",
+    TimesRoman: '"Times New Roman", serif',
+    Courier: '"Courier New", monospace',
+  };
 
   return (
     <article className="watermark-preview-card">
       <div className="watermark-preview-sheet">
-        <canvas
-          ref={canvasRef}
-          aria-label={`Preview page ${page.pageNumber} of ${fileName}`}
-        />
+        <div className="watermark-preview-page">
+          <canvas
+            ref={canvasRef}
+            aria-label={`Preview page ${page.pageNumber} of ${fileName}`}
+          />
+          {!loading && !failed && showWatermark && previewPositions.map((item) => (
+            <span
+              key={item.id}
+              className={`watermark-preview-mark${settings.underline && settings.mode === "text" ? " is-underlined" : ""}${settings.mode === "image" ? " is-image" : ""}`}
+              style={{
+                left: `${item.x * 100}%`,
+                top: `${(1 - item.y) * 100}%`,
+                opacity: 1 - Number(settings.transparency) / 100,
+                transform: `translate(-50%, -50%) rotate(${settings.rotation}deg)`,
+                ...(settings.mode === "image"
+                  ? { width: settings.mosaic ? "20%" : "42%", maxWidth: "none" }
+                  : {}),
+                ...(settings.mode === "text"
+                  ? {
+                      color: settings.color,
+                      fontFamily: fontFamilies[settings.fontFamily],
+                      fontSize: `${Number(settings.fontSize) * previewScale}px`,
+                      fontWeight: settings.bold ? 700 : 400,
+                      fontStyle: settings.italic ? "italic" : "normal",
+                    }
+                  : {}),
+              }}
+            >
+              {settings.mode === "text" ? (
+                settings.text
+              ) : (
+                <img
+                  src={settings.imageUrl}
+                  alt=""
+                  style={{
+                    maxHeight: settings.mosaic ? "12%" : "22%",
+                  }}
+                />
+              )}
+            </span>
+          ))}
+        </div>
 
         {loading && (
           <div className="watermark-preview-loading">
@@ -161,17 +225,6 @@ function PreviewTile({ page, settings, onRemove, fileName, onZoom }) {
             <FileText size={25} />
             <small>Preview unavailable</small>
           </div>
-        )}
-
-        {!loading && !failed && (
-          <span
-            className="watermark-position-dot"
-            style={{
-              left: `${position.x * 100}%`,
-              top: `${(1 - position.y) * 100}%`,
-            }}
-            title={`Watermark position: ${position.label}`}
-          />
         )}
 
         <button
@@ -413,7 +466,15 @@ export default function WatermarkPDF() {
     if (!files.length) { setError("Upload at least one PDF first."); return; }
     if (settings.mode === "text" && !settings.text.trim()) { setError("Enter the text you want to use as a watermark."); return; }
     if (settings.mode === "image" && !settings.imageBytes) { setError("Please add an image watermark first."); return; }
-    if (!isMulti && (Number(settings.fromPage) < 1 || Number(settings.toPage) < Number(settings.fromPage) || Number(settings.toPage) > files[0].pages)) {
+    const firstPage = Number(settings.fromPage);
+    const lastPage = Number(settings.toPage);
+    if (!isMulti && (
+      !Number.isInteger(firstPage) ||
+      !Number.isInteger(lastPage) ||
+      firstPage < 1 ||
+      lastPage < firstPage ||
+      lastPage > files[0].pages
+    )) {
       setError(`Choose a page range between 1 and ${files[0].pages}.`); return;
     }
     setProcessing(true);
@@ -434,6 +495,8 @@ export default function WatermarkPDF() {
         const opacity = 1 - Number(settings.transparency) / 100;
         for (let pageIndex = first - 1; pageIndex < last; pageIndex += 1) {
           const page = pages[pageIndex];
+          const contents = page.node.normalizedEntries().Contents;
+          const watermarkStartIndex = contents.size();
           const { width, height } = page.getSize();
           for (const position of positions) {
             const angle = Number(settings.rotation);
@@ -471,16 +534,18 @@ export default function WatermarkPDF() {
               page.drawImage(embeddedImage, { x: Math.max(0, Math.min(width - drawWidth, width * position.x - drawWidth / 2)), y: Math.max(0, Math.min(height - drawHeight, height * position.y - drawHeight / 2)), width: drawWidth, height: drawHeight, opacity, rotate: degrees(angle) });
             }
           }
-          // Watermark drawing is stored in its own trailing content stream by pdf-lib.
-          // Move that stream to the beginning when the user selects "below".
-          if (settings.layer === "below") {
-            const contents = page.node.Contents();
-            if (contents instanceof PDFArray && contents.size() > 1) {
-              const lastIndex = contents.size() - 1;
-              const watermarkStream = contents.get(lastIndex);
-              contents.remove(lastIndex);
-              contents.insert(0, watermarkStream);
-            }
+          const watermarkStreams = [];
+          while (contents.size() > watermarkStartIndex) {
+            watermarkStreams.push(contents.get(watermarkStartIndex));
+            contents.remove(watermarkStartIndex);
+          }
+          if (settings.layer === "below" && contents instanceof PDFArray) {
+            const insertIndex = Math.min(1, contents.size());
+            watermarkStreams.forEach((stream, index) => {
+              contents.insert(insertIndex + index, stream);
+            });
+          } else {
+            watermarkStreams.forEach((stream) => contents.push(stream));
           }
         }
         const bytes = await pdf.save();
@@ -513,6 +578,11 @@ export default function WatermarkPDF() {
 
   return (
     <main className="merge-page watermark-tool-page">
+      <PageSEO
+        title="Add a Watermark to PDF Online | QuickTools"
+        description="Add a text or image watermark to PDF pages. Choose its position, transparency, rotation, page range, and layer, then download your watermarked PDF."
+        path="/watermark-pdf"
+      />
       <div className="merge-container watermark-container">
         <Link to="/" className="merge-back"><ArrowLeft size={17} />Back to all tools</Link>
         <header className="merge-heading">
@@ -598,12 +668,13 @@ export default function WatermarkPDF() {
                     page={page}
                     fileName={page.file.name}
                     settings={settings}
+                    isMulti={isMulti}
                     onRemove={() => removeFile(page.fileId)}
                     onZoom={setZoomPage}
                   />
                 ))}
               </div>
-              <div className="watermark-preview-foot"><span>Preview updates as you change your watermark settings.</span><button type="button" className="watermark-clear-link" onClick={clearAll}><Trash2 size={14} />Clear all PDFs</button></div>
+              <div className="watermark-preview-foot"><span>{settings.layer === "below" ? "Preview shows placement; the selected layer is applied to the downloaded PDF." : "Preview updates as you change your watermark settings."}</span><button type="button" className="watermark-clear-link" onClick={clearAll}><Trash2 size={14} />Clear all PDFs</button></div>
             </div>
 
             <aside className="watermark-settings-panel">
