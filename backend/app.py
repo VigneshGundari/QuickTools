@@ -286,6 +286,117 @@ def word_to_pdf():
         }), 500
 
 
+@app.post("/api/convert/office-to-pdf")
+def office_to_pdf():
+    uploaded = request.files.get("file")
+
+    if not uploaded or not uploaded.filename:
+        return jsonify({"error": "Please upload an Excel or PowerPoint file."}), 400
+
+    safe_filename = secure_filename(uploaded.filename)
+    extension = Path(safe_filename).suffix.lower()
+    supported_extensions = {".xls", ".xlsx", ".ppt", ".pptx"}
+
+    if extension not in supported_extensions:
+        return jsonify({
+            "error": "Only .xls, .xlsx, .ppt, and .pptx files are supported."
+        }), 400
+
+    office = find_libreoffice()
+    if not office:
+        logger.error("LibreOffice executable could not be found.")
+        return jsonify({
+            "error": (
+                "LibreOffice could not be found on the conversion server. "
+                "Check its installation and configuration."
+            )
+        }), 503
+
+    signature = uploaded.stream.read(8)
+    uploaded.stream.seek(0)
+    is_open_xml = extension in {".xlsx", ".pptx"} and signature.startswith(b"PK")
+    is_legacy_office = extension in {".xls", ".ppt"} and signature == b"\xd0\xcf\x11\xe0\xa1\xb1\x1a\xe1"
+
+    if not (is_open_xml or is_legacy_office):
+        return jsonify({"error": "This file does not appear to be a valid Office document."}), 400
+
+    temp_dir = tempfile.mkdtemp(prefix="quicktools-office-pdf-")
+    input_path = os.path.join(temp_dir, safe_filename)
+    output_path = os.path.join(temp_dir, Path(safe_filename).stem + ".pdf")
+
+    try:
+        uploaded.save(input_path)
+        if os.path.getsize(input_path) == 0:
+            shutil.rmtree(temp_dir, ignore_errors=True)
+            return jsonify({"error": "The Office document is empty."}), 400
+
+        profile_dir = os.path.join(temp_dir, "lo-profile")
+        os.makedirs(profile_dir, exist_ok=True)
+        result = subprocess.run(
+            [
+                office,
+                "-env:UserInstallation=" + Path(profile_dir).resolve().as_uri(),
+                "--headless",
+                "--convert-to",
+                "pdf",
+                "--outdir",
+                temp_dir,
+                input_path,
+            ],
+            capture_output=True,
+            text=True,
+            timeout=120,
+            check=False,
+        )
+
+        if result.stdout:
+            logger.info("Office-to-PDF output: %s", result.stdout)
+        if result.stderr:
+            logger.info("Office-to-PDF messages: %s", result.stderr)
+
+        if (
+            result.returncode != 0
+            or not os.path.isfile(output_path)
+            or os.path.getsize(output_path) == 0
+        ):
+            logger.warning(
+                "Office-to-PDF conversion failed for %s (return code %s).",
+                extension,
+                result.returncode,
+            )
+            shutil.rmtree(temp_dir, ignore_errors=True)
+            return jsonify({
+                "error": "Conversion failed. Check that the Office document opens correctly and try again."
+            }), 422
+
+        with open(output_path, "rb") as converted:
+            if converted.read(5) != b"%PDF-":
+                shutil.rmtree(temp_dir, ignore_errors=True)
+                return jsonify({"error": "The converter did not produce a valid PDF."}), 500
+
+        response = send_file(
+            output_path,
+            mimetype="application/pdf",
+            as_attachment=True,
+            download_name=Path(safe_filename).stem + ".pdf",
+            conditional=False,
+        )
+        response.call_on_close(
+            lambda: shutil.rmtree(temp_dir, ignore_errors=True)
+        )
+        return response
+
+    except subprocess.TimeoutExpired:
+        logger.warning("Office-to-PDF conversion timed out.")
+        shutil.rmtree(temp_dir, ignore_errors=True)
+        return jsonify({"error": "Conversion timed out. Try a smaller document."}), 408
+
+    except Exception:
+        logger.exception("Office-to-PDF conversion failed")
+        shutil.rmtree(temp_dir, ignore_errors=True)
+        return jsonify({"error": "An unexpected error occurred during conversion."}), 500
+
+
 @app.route("/api/rotate-pdf", methods=["POST"])
 def rotate_pdf():
     if "file" not in request.files:

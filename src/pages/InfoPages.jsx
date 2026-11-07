@@ -16,7 +16,7 @@ const supportTopics = [
   {
     question: "Are my files uploaded?",
     answer:
-      "Most PDF and image tools process files in your browser. PDF-to-Word and Word-to-PDF use a conversion service, and optional phone-based signing sends signature data through Supabase Realtime. See the Privacy page for details.",
+      "Image tools process files in your browser. PDF-to-Word, Word-to-PDF, Excel-to-PDF, and PowerPoint-to-PDF send documents to a conversion service. Optional phone-based signing sends signature data through Supabase Realtime. See the Privacy page for details.",
   },
   {
     question: "Can I edit text in a scanned PDF?",
@@ -57,22 +57,22 @@ export default function InfoPages({ page }) {
             <section className="info-content-section">
               <h2>Files you select</h2>
               <p>
-                Most PDF and image tools in QuickTools process your selected
-                files in your browser. For these tools, the document stays on
-                your device while the operation runs. Do not use a tool for
-                sensitive material unless its behavior meets your needs.
+                Image tools process your selected files in your browser. For
+                these tools, images stay on your device while the operation
+                runs. Do not use a tool for sensitive material unless its
+                behavior meets your needs.
               </p>
             </section>
 
             <section className="info-content-section">
               <h2>Document conversion</h2>
               <p>
-                PDF-to-Word and Word-to-PDF conversion send the selected file
-                to the QuickTools conversion API, which returns the converted
-                file to your browser. This host is an API service, not a public
-                website, so opening its root URL may show a 404; that does not
-                mean the conversion endpoints are unavailable. You can check
-                the{" "}
+                PDF-to-Word, Word-to-PDF, Excel-to-PDF, and PowerPoint-to-PDF
+                send selected documents to the QuickTools conversion API, which
+                returns the converted file to your browser. This host is an API
+                service, not a public website, so opening its root URL may show
+                a 404; that does not mean the conversion endpoints are
+                unavailable. You can check the{" "}
                 <a href="https://quicktools-rmgf.onrender.com/api/health">
                   conversion API status
                 </a>

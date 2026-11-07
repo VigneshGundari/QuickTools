@@ -36,6 +36,8 @@ import InfoPages from "./pages/InfoPages";
 import TextCaseConverter from "./pages/TextCaseConverter";
 import QRCodeGenerator from "./pages/QRCodeGenerator";
 import TextToPDF from "./pages/TextToPDF";
+import ImageTools from "./pages/ImageTools";
+import OfficeToPDF from "./pages/OfficeToPDF";
 
 const tools = [
   { name: "Edit PDF", desc: "Add text, notes and shapes to your PDF.", category: "PDF", icon: FilePenLine, tint: "pink", featured: true },
@@ -82,6 +84,14 @@ const availableToolNames = new Set([
   "QR Code Generator",
   "Text Case Converter",
   "Text to PDF",
+  "Resize Image",
+  "Compress Image",
+  "Crop Image",
+  "Convert Image",
+  "Add Text to Image",
+  "Remove Background",
+  "Excel to PDF",
+  "PowerPoint to PDF",
 ]);
 
 const isToolAvailable = (tool) => availableToolNames.has(tool.name);
@@ -119,6 +129,14 @@ function App() {
       "QR Code Generator": "/qr-code-generator",
       "Text Case Converter": "/text-case-converter",
       "Text to PDF": "/text-to-pdf",
+      "Resize Image": "/resize-image",
+      "Compress Image": "/compress-image",
+      "Crop Image": "/crop-image",
+      "Convert Image": "/convert-image",
+      "Add Text to Image": "/add-text-to-image",
+      "Remove Background": "/remove-background",
+      "Excel to PDF": "/excel-to-pdf",
+      "PowerPoint to PDF": "/powerpoint-to-pdf",
     };
     if (simpleToolRoutes[tool.name]) {
       setActiveTool(null);
@@ -623,6 +641,14 @@ createRoot(document.getElementById("root")).render(
         <Route path="/text-case-converter" element={<TextCaseConverter />} />
         <Route path="/qr-code-generator" element={<QRCodeGenerator />} />
         <Route path="/text-to-pdf" element={<TextToPDF />} />
+        <Route path="/resize-image" element={<ImageTools tool="resize-image" />} />
+        <Route path="/compress-image" element={<ImageTools tool="compress-image" />} />
+        <Route path="/crop-image" element={<ImageTools tool="crop-image" />} />
+        <Route path="/convert-image" element={<ImageTools tool="convert-image" />} />
+        <Route path="/add-text-to-image" element={<ImageTools tool="add-text-to-image" />} />
+        <Route path="/remove-background" element={<ImageTools tool="remove-background" />} />
+        <Route path="/excel-to-pdf" element={<OfficeToPDF tool="excel-to-pdf" />} />
+        <Route path="/powerpoint-to-pdf" element={<OfficeToPDF tool="powerpoint-to-pdf" />} />
         <Route path="/support" element={<InfoPages page="support" />} />
         <Route path="/privacy" element={<InfoPages page="privacy" />} />
       </Routes>
