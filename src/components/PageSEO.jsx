@@ -1,30 +1,42 @@
 import { useEffect } from "react";
+import {
+  createPageSchema,
+  DEFAULT_ROBOTS,
+  HOME_PAGE_METADATA,
+  SEO_ROUTES,
+  SITE_URL,
+} from "../seo/routes.js";
 
-const SITE_URL = "https://quicktools-roan.vercel.app";
 const SITE_NAME = "QuickTools";
 
 export default function PageSEO({
-  title,
-  description,
+  title = HOME_PAGE_METADATA.title,
+  description = HOME_PAGE_METADATA.description,
   path,
-  robots = "index, follow, max-image-preview:large",
+  robots = DEFAULT_ROBOTS,
 }) {
+  const routeMetadata =
+    path === "/" ? HOME_PAGE_METADATA : SEO_ROUTES.find((route) => route.path === path);
+  const pageTitle = routeMetadata?.title ?? title;
+  const pageDescription = routeMetadata?.description ?? description;
+  const pageRobots = routeMetadata?.robots ?? robots;
+
   useEffect(() => {
     const canonicalUrl = new URL(path, SITE_URL).href;
     const previousTitle = document.title;
-    document.title = title;
+    document.title = pageTitle;
 
     const metaValues = [
-      { attribute: "name", key: "description", content: description },
-      { attribute: "name", key: "robots", content: robots },
+      { attribute: "name", key: "description", content: pageDescription },
+      { attribute: "name", key: "robots", content: pageRobots },
       { attribute: "property", key: "og:type", content: "website" },
       { attribute: "property", key: "og:site_name", content: SITE_NAME },
-      { attribute: "property", key: "og:title", content: title },
-      { attribute: "property", key: "og:description", content: description },
+      { attribute: "property", key: "og:title", content: pageTitle },
+      { attribute: "property", key: "og:description", content: pageDescription },
       { attribute: "property", key: "og:url", content: canonicalUrl },
       { attribute: "name", key: "twitter:card", content: "summary" },
-      { attribute: "name", key: "twitter:title", content: title },
-      { attribute: "name", key: "twitter:description", content: description },
+      { attribute: "name", key: "twitter:title", content: pageTitle },
+      { attribute: "name", key: "twitter:description", content: pageDescription },
     ];
 
     const previousMetaValues = metaValues.map(({ attribute, key, content }) => {
@@ -67,63 +79,9 @@ export default function PageSEO({
       document.head.appendChild(schema);
     }
 
-    const pageSchema =
-      path === "/"
-        ? {
-            "@context": "https://schema.org",
-            "@graph": [
-              {
-                "@type": "Organization",
-                "@id": `${SITE_URL}/#organization`,
-                name: SITE_NAME,
-                url: `${SITE_URL}/`,
-              },
-              {
-                "@type": "WebSite",
-                "@id": `${SITE_URL}/#website`,
-                name: SITE_NAME,
-                url: `${SITE_URL}/`,
-                publisher: { "@id": `${SITE_URL}/#organization` },
-                description,
-              },
-              {
-                "@type": "WebApplication",
-                "@id": `${SITE_URL}/#webapplication`,
-                name: SITE_NAME,
-                url: `${SITE_URL}/`,
-                description,
-                applicationCategory: "UtilitiesApplication",
-                operatingSystem: "Any",
-              },
-            ],
-          }
-        : {
-            "@context": "https://schema.org",
-            "@type": "WebPage",
-            name: title,
-            description,
-            url: canonicalUrl,
-            isPartOf: { "@id": `${SITE_URL}/#website` },
-            breadcrumb: {
-              "@type": "BreadcrumbList",
-              itemListElement: [
-                {
-                  "@type": "ListItem",
-                  position: 1,
-                  name: "Home",
-                  item: `${SITE_URL}/`,
-                },
-                {
-                  "@type": "ListItem",
-                  position: 2,
-                  name: title.split("|")[0].trim(),
-                  item: canonicalUrl,
-                },
-              ],
-            },
-          };
-
-    schema.textContent = JSON.stringify(pageSchema);
+    schema.textContent = JSON.stringify(
+      createPageSchema({ path, title: pageTitle, description: pageDescription })
+    );
 
     return () => {
       document.title = previousTitle;
@@ -158,7 +116,7 @@ export default function PageSEO({
         schema.remove();
       }
     };
-  }, [description, path, robots, title]);
+  }, [pageDescription, pageRobots, pageTitle, path]);
 
   return null;
 }

@@ -100,8 +100,11 @@ export default function SignPDF() {
   const [mobileSent, setMobileSent] = useState(false);
   const [mobileMessage, setMobileMessage] = useState("");
   const [mobileCanvasHasInk, setMobileCanvasHasInk] = useState(false);
-  const [isMobileSigner] = useState(() => new URLSearchParams(window.location.search).has("mobileSign"));
-  const mobileSessionFromUrl = new URLSearchParams(window.location.search).get("mobileSign") || "";
+  const mobileSignParams = new URLSearchParams(
+    typeof window === "undefined" ? "" : window.location.search
+  );
+  const [isMobileSigner] = useState(() => mobileSignParams.has("mobileSign"));
+  const mobileSessionFromUrl = mobileSignParams.get("mobileSign") || "";
   const mobileCanvasRef = useRef(null);
   const mobileDrawingRef = useRef(false);
   const mobileInkRef = useRef(false);

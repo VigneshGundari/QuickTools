@@ -1,9 +1,33 @@
 
 {
+  "trailingSlash": false,
   "rewrites": [
-    {
-      "source": "/(.*)",
-      "destination": "/index.html"
-    }
+    { "source": "/merge-pdf", "destination": "/merge-pdf/index.html" },
+    { "source": "/split-pdf", "destination": "/split-pdf/index.html" },
+    { "source": "/compress-pdf", "destination": "/compress-pdf/index.html" },
+    { "source": "/pdf-to-word", "destination": "/pdf-to-word/index.html" },
+    { "source": "/word-to-pdf", "destination": "/word-to-pdf/index.html" },
+    { "source": "/rotate-pdf", "destination": "/rotate-pdf/index.html" },
+    { "source": "/organize-pdf", "destination": "/organize-pdf/index.html" },
+    { "source": "/pdf-to-jpg", "destination": "/pdf-to-jpg/index.html" },
+    { "source": "/jpg-to-pdf", "destination": "/jpg-to-pdf/index.html" },
+    { "source": "/sign-pdf", "destination": "/sign-pdf/index.html" },
+    { "source": "/protect-pdf", "destination": "/protect-pdf/index.html" },
+    { "source": "/watermark-pdf", "destination": "/watermark-pdf/index.html" },
+    { "source": "/edit-pdf", "destination": "/edit-pdf/index.html" },
+    { "source": "/edit-pdf-ui", "destination": "/edit-pdf-ui/index.html" },
+    { "source": "/text-case-converter", "destination": "/text-case-converter/index.html" },
+    { "source": "/qr-code-generator", "destination": "/qr-code-generator/index.html" },
+    { "source": "/text-to-pdf", "destination": "/text-to-pdf/index.html" },
+    { "source": "/resize-image", "destination": "/resize-image/index.html" },
+    { "source": "/compress-image", "destination": "/compress-image/index.html" },
+    { "source": "/crop-image", "destination": "/crop-image/index.html" },
+    { "source": "/convert-image", "destination": "/convert-image/index.html" },
+    { "source": "/add-text-to-image", "destination": "/add-text-to-image/index.html" },
+    { "source": "/remove-background", "destination": "/remove-background/index.html" },
+    { "source": "/excel-to-pdf", "destination": "/excel-to-pdf/index.html" },
+    { "source": "/powerpoint-to-pdf", "destination": "/powerpoint-to-pdf/index.html" },
+    { "source": "/support", "destination": "/support/index.html" },
+    { "source": "/privacy", "destination": "/privacy/index.html" }
   ]
 }

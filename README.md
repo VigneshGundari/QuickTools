@@ -40,6 +40,15 @@ npm run build
 npm run preview
 ```
 
+The production build server-renders each route in `src/seo/routes.js` into its
+own static HTML file, including the page content, title, description, social
+metadata, structured data, and self-referencing canonical URL. The React app
+still runs client-side to provide tool interactions. The sample editor preview
+route is generated but marked `noindex`; it is intentionally excluded from the
+sitemap. Keep the route list, `public/sitemap.xml`, and route rewrites in
+`vercel.json` in sync when adding or removing routes. Unknown paths are not
+rewritten to the homepage and use the custom 404 document.
+
 ## Run the backend locally
 
 The Python backend requires Python 3.11 or newer. From the repository root:

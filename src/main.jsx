@@ -14,7 +14,9 @@ import {
   Route,
   useNavigate,
   Link,
+  useLocation,
 } from "react-router-dom";
+import { RELATED_TOOLS, SEO_ROUTES } from "./seo/routes.js";
 import "./styles.css";
 import MergePDF from "./pages/MergePDF";
 import SplitPDF from "./pages/SplitPDF";
@@ -96,10 +98,38 @@ const availableToolNames = new Set([
 
 const isToolAvailable = (tool) => availableToolNames.has(tool.name);
 
+const toolRoutes = {
+  "Edit PDF": "/edit-pdf",
+  "Merge PDF": "/merge-pdf",
+  "Split PDF": "/split-pdf",
+  "Compress PDF": "/compress-pdf",
+  "PDF to Word": "/pdf-to-word",
+  "Word to PDF": "/word-to-pdf",
+  "Rotate PDF": "/rotate-pdf",
+  "Organize PDF": "/organize-pdf",
+  "Sign PDF": "/sign-pdf",
+  "Protect PDF": "/protect-pdf",
+  "Watermark PDF": "/watermark-pdf",
+  "PDF to JPG": "/pdf-to-jpg",
+  "Resize Image": "/resize-image",
+  "Compress Image": "/compress-image",
+  "Crop Image": "/crop-image",
+  "Convert Image": "/convert-image",
+  "Add Text to Image": "/add-text-to-image",
+  "Remove Background": "/remove-background",
+  "Excel to PDF": "/excel-to-pdf",
+  "PowerPoint to PDF": "/powerpoint-to-pdf",
+  "JPG to PDF": "/jpg-to-pdf",
+  "Text to PDF": "/text-to-pdf",
+  "QR Code Generator": "/qr-code-generator",
+  "Text Case Converter": "/text-case-converter",
+};
 
 function App() {
   const navigate = useNavigate();
-  const [theme, setTheme] = useState(() => localStorage.getItem("qt-theme") || "light");
+  const [theme, setTheme] = useState(() =>
+    typeof window === "undefined" ? "light" : localStorage.getItem("qt-theme") || "light"
+  );
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState("All tools");
   const [activeTool, setActiveTool] = useState(null);
@@ -575,53 +605,9 @@ function SiteFooter() {
 }
 
 
-function ToolCard({ tool, onClick }) {
-  const available = isToolAvailable(tool);
-
+export function AppRoutes() {
   return (
-    <button
-      className={`tool-card ${available ? "" : "tool-card-locked"}`}
-      onClick={available ? onClick : undefined}
-      disabled={!available}
-      title={available ? tool.name : "Coming Soon!"}
-      aria-label={
-        available ? tool.name : `${tool.name} — Coming Soon`
-      }
-    >
-      <span className={`tool-icon ${tool.tint}`}>
-        <tool.icon size={23} />
-      </span>
-
-      <span className="tool-card-content">
-        <strong>{tool.name}</strong>
-        <span>{tool.desc}</span>
-
-        {!available && (
-          <span className="tool-coming-soon">
-            <LockKeyhole size={12} />
-            Coming Soon!
-          </span>
-        )}
-      </span>
-
-      <span className="tool-arrow">
-        {available ? (
-          <ArrowRight size={17} />
-        ) : (
-          <LockKeyhole size={16} />
-        )}
-      </span>
-    </button>
-  );
-}
-
-function ArrowUpRightIcon() {
-  return <ArrowRight size={17} />;
-}
-
-createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <BrowserRouter>
+    <>
       <Routes>
         <Route path="/" element={<App />} />
         <Route path="/merge-pdf" element={<MergePDF />} />
@@ -652,8 +638,92 @@ createRoot(document.getElementById("root")).render(
         <Route path="/support" element={<InfoPages page="support" />} />
         <Route path="/privacy" element={<InfoPages page="privacy" />} />
       </Routes>
+      <RelatedToolLinks />
       <SiteFooter />
-    </BrowserRouter>
-    <Analytics />
-  </React.StrictMode>
-);
+    </>
+  );
+}
+
+function RelatedToolLinks() {
+  const { pathname } = useLocation();
+  const relatedRoutes = (RELATED_TOOLS[pathname] ?? [])
+    .map((path) => SEO_ROUTES.find((route) => route.path === path))
+    .filter(Boolean);
+
+  if (!relatedRoutes.length) return null;
+
+  return (
+    <section className="related-tool-section" aria-labelledby="related-tool-heading">
+      <h2 id="related-tool-heading">Related tools</h2>
+      <div className="info-tool-links">
+        {relatedRoutes.map((route) => (
+          <Link key={route.path} to={route.path}>
+            {route.title.split("|")[0].trim()}
+          </Link>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function ToolCardContent({ tool, available }) {
+  return (
+    <>
+      <span className={`tool-icon ${tool.tint}`}>
+        <tool.icon size={23} />
+      </span>
+      <span className="tool-card-content">
+        <strong>{tool.name}</strong>
+        <span>{tool.desc}</span>
+        {!available && (
+          <span className="tool-coming-soon">
+            <LockKeyhole size={12} />
+            Coming Soon!
+          </span>
+        )}
+      </span>
+      <span className="tool-arrow">
+        {available ? <ArrowRight size={17} /> : <LockKeyhole size={16} />}
+      </span>
+    </>
+  );
+}
+
+function ToolCard({ tool, onClick }) {
+  const available = isToolAvailable(tool);
+  const path = toolRoutes[tool.name];
+  const className = `tool-card ${available ? "" : "tool-card-locked"}`;
+  const label = available ? tool.name : `${tool.name} — Coming Soon`;
+
+  if (available && path) {
+    return (
+      <Link to={path} className={className} title={tool.name} aria-label={label}>
+        <ToolCardContent tool={tool} available={available} />
+      </Link>
+    );
+  }
+
+  return (
+    <button
+      type="button"
+      className={className}
+      onClick={available ? onClick : undefined}
+      disabled={!available}
+      title={available ? tool.name : "Coming Soon!"}
+      aria-label={label}
+    >
+      <ToolCardContent tool={tool} available={available} />
+    </button>
+  );
+}
+
+if (typeof document !== "undefined") {
+  createRoot(document.getElementById("root")).render(
+    <React.StrictMode>
+      <BrowserRouter>
+        <AppRoutes />
+      </BrowserRouter>
+      <Analytics />
+    </React.StrictMode>
+  );
+}

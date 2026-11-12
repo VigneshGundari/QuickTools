@@ -87,7 +87,7 @@ kbd{font-size:11px;border:1px solid var(--border);border-radius:6px;padding:5px 
 .small-search input{font-size:12px}
 .small-search button{background:none;border:0;color:var(--muted);padding:3px}
 .tool-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px}
-.tool-card{position:relative;display:flex;align-items:flex-start;gap:12px;min-height:126px;padding:17px 14px;text-align:left;background:var(--surface);border:1px solid var(--border);border-radius:15px;color:var(--text);transition:transform .2s,border-color .2s,box-shadow .2s;overflow:hidden}
+.tool-card{position:relative;display:flex;align-items:flex-start;gap:12px;min-height:126px;padding:17px 14px;text-align:left;background:var(--surface);border:1px solid var(--border);border-radius:15px;color:var(--text);font:inherit;text-decoration:none;cursor:pointer;transition:transform .2s,border-color .2s,box-shadow .2s;overflow:hidden}
 .tool-card:hover{transform:translateY(-3px);border-color:#bcb5ff;box-shadow:var(--shadow)}
 .tool-icon{width:44px;height:44px;flex:0 0 44px;display:grid;place-items:center;border-radius:13px}
 .tool-icon.large{width:60px;height:60px;flex-basis:60px;border-radius:17px}
@@ -5799,6 +5799,20 @@ kbd{font-size:11px;border:1px solid var(--border);border-radius:6px;padding:5px 
 .info-tool-links a:hover {
   border-color: #6558e8;
   color: #5549d0;
+}
+
+.related-tool-section {
+  max-width: 1100px;
+  margin: 0 auto 20px;
+  padding: 0 24px;
+}
+
+.related-tool-section h2 {
+  margin: 0;
+  color: #29283f;
+  font-family: Manrope, sans-serif;
+  font-size: 18px;
+  letter-spacing: -0.3px;
 }
 
 .info-faq-item {
