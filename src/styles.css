@@ -1073,6 +1073,109 @@ kbd{font-size:11px;border:1px solid var(--border);border-radius:6px;padding:5px 
   box-shadow: 0 3px 12px rgba(0, 0, 0, 0.12);
 }
 
+.route-loading {
+  display: grid;
+  min-height: 40vh;
+  place-items: center;
+  color: var(--muted, #777b8d);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.pdf-word-details,
+.pdf-word-faq {
+  margin-top: 32px;
+}
+
+.pdf-word-details h2,
+.pdf-word-faq h2 {
+  margin: 0 0 16px;
+  font-size: 21px;
+}
+
+.pdf-word-detail-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.pdf-word-detail-grid article {
+  padding: 20px;
+  border: 1px solid var(--border, #e7e8ef);
+  border-radius: 15px;
+  background: var(--surface, #fff);
+}
+
+.pdf-word-detail-grid h3 {
+  margin: 0 0 8px;
+  font-size: 15px;
+}
+
+.pdf-word-detail-grid p,
+.pdf-word-faq details p {
+  margin: 0;
+  color: var(--muted, #777b8d);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.pdf-word-faq details {
+  padding: 16px 18px;
+  border: 1px solid var(--border, #e7e8ef);
+  border-radius: 12px;
+  background: var(--surface, #fff);
+}
+
+.pdf-word-faq details + details {
+  margin-top: 10px;
+}
+
+.pdf-word-faq summary {
+  color: var(--text, #222239);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.pdf-word-faq details p {
+  margin-top: 10px;
+}
+
+.pdf-word-faq a,
+.pdf-word-related a {
+  color: var(--purple, #6558e8);
+  font-weight: 700;
+  text-underline-offset: 3px;
+}
+
+.pdf-word-related {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 20px;
+  margin-top: 24px;
+  padding: 18px 20px;
+  border: 1px solid var(--border, #e7e8ef);
+  border-radius: 14px;
+  background: var(--surface, #fff);
+  font-size: 14px;
+}
+
+.pdf-word-related span {
+  color: var(--muted, #777b8d);
+}
+
+@media (max-width: 620px) {
+  .pdf-word-detail-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .pdf-word-related {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
 .qt-pdf-card-actions {
   position: absolute;
   top: 10px;

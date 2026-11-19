@@ -1,5 +1,6 @@
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
+import { PassThrough } from "node:stream";
 import {
   createPageSchema,
   DEFAULT_ROBOTS,
@@ -71,6 +72,41 @@ function applyRouteMetadata(template, route) {
   return html;
 }
 
+function renderMarkup(renderToPipeableStream, element) {
+  return new Promise((resolveMarkup, rejectMarkup) => {
+    const chunks = [];
+    const output = new PassThrough();
+    let renderError;
+    let stream;
+
+    output.on("data", (chunk) => chunks.push(chunk));
+    output.once("error", rejectMarkup);
+    output.once("end", () => {
+      if (renderError) {
+        rejectMarkup(renderError);
+        return;
+      }
+
+      resolveMarkup(Buffer.concat(chunks).toString("utf8"));
+    });
+
+    stream = renderToPipeableStream(element, {
+      onAllReady() {
+        if (renderError) {
+          rejectMarkup(renderError);
+          return;
+        }
+
+        stream.pipe(output);
+      },
+      onShellError: rejectMarkup,
+      onError(error) {
+        renderError = error;
+      },
+    });
+  });
+}
+
 export function prerenderRoutes() {
   let outDir;
   let projectRoot;
@@ -85,7 +121,7 @@ export function prerenderRoutes() {
       configFile = config.configFile;
     },
     async closeBundle() {
-      const [{ createServer }, React, { renderToStaticMarkup }] = await Promise.all([
+      const [{ createServer }, React, { renderToPipeableStream }] = await Promise.all([
         import("vite"),
         import("react"),
         import("react-dom/server"),
@@ -112,7 +148,8 @@ export function prerenderRoutes() {
 
         await Promise.all(
           routes.map(async (route) => {
-            const pageMarkup = renderToStaticMarkup(
+            const pageMarkup = await renderMarkup(
+              renderToPipeableStream,
               React.createElement(
                 router.StaticRouter,
                 { location: route.path },

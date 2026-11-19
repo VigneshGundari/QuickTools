@@ -29,9 +29,9 @@ export const SEO_ROUTES = [
   },
   {
     path: "/pdf-to-word",
-    title: "Convert PDF to Word Online | QuickTools",
+    title: "PDF to Word Converter Online (PDF to DOCX) | QuickTools",
     description:
-      "Convert PDF documents to editable Word files online with QuickTools. Upload a PDF and download the converted document.",
+      "Convert a PDF to an editable Word (DOCX) file online. Upload a PDF up to 50 MB, download your document, and review it for formatting changes.",
   },
   {
     path: "/word-to-pdf",

@@ -136,8 +136,8 @@ const [previewError, setPreviewError] = useState("");
   return (
     <main className="merge-page">
       <PageSEO
-        title="PDF to Word Converter Online | QuickTools"
-        description="Convert PDF documents into editable Word files online with QuickTools. Prepare your documents for editing and reuse."
+        title="PDF to Word Converter Online (PDF to DOCX) | QuickTools"
+        description="Convert a PDF to an editable Word (DOCX) file online. Upload a PDF up to 50 MB, download your document, and review it for formatting changes."
         path="/pdf-to-word"
       />
       <div className="merge-container">
@@ -152,8 +152,11 @@ const [previewError, setPreviewError] = useState("");
           </div>
           <div>
             <span className="merge-eyebrow">PDF TOOL</span>
-            <h1>PDF to Word</h1>
-            <p>Convert your PDF into an editable Word document.</p>
+            <h1>PDF to Word Converter</h1>
+            <p>
+              Convert a PDF into an editable Word document and download it as a
+              DOCX file.
+            </p>
           </div>
         </header>
 
@@ -175,7 +178,7 @@ const [previewError, setPreviewError] = useState("");
               disabled={processing}
             >
               <Plus size={18} />
-              {file ? "Replace PDF" : "Select PDF files"}
+              {file ? "Replace PDF" : "Select a PDF"}
             </button>
 
             <input
@@ -306,6 +309,75 @@ const [previewError, setPreviewError] = useState("");
             </div>
           </div>
         </section>
+
+        <section className="pdf-word-details" aria-labelledby="pdf-word-details-title">
+          <h2 id="pdf-word-details-title">Before you convert</h2>
+          <div className="pdf-word-detail-grid">
+            <article>
+              <h3>File requirements</h3>
+              <p>
+                Upload one PDF file up to 50 MB. The converted document
+                downloads in DOCX format and can be opened in Microsoft Word
+                and other compatible editors.
+              </p>
+            </article>
+            <article>
+              <h3>Scanned PDFs and formatting</h3>
+              <p>
+                Scanned pages are images, so they may need OCR before their
+                text can be edited. Complex layouts, fonts, and images may
+                also look different after conversion; review the DOCX before
+                using or sharing it.
+              </p>
+            </article>
+          </div>
+        </section>
+
+        <section className="pdf-word-faq" aria-labelledby="pdf-word-faq-title">
+          <h2 id="pdf-word-faq-title">PDF to Word questions</h2>
+          <details>
+            <summary>How do I convert a PDF to a Word document?</summary>
+            <p>
+              Select a PDF from your device, choose “Convert to Word,” then
+              download the DOCX file when conversion finishes.
+            </p>
+          </details>
+          <details>
+            <summary>What is the maximum PDF file size?</summary>
+            <p>You can upload one PDF file up to 50 MB.</p>
+          </details>
+          <details>
+            <summary>Can I edit a scanned PDF after converting it?</summary>
+            <p>
+              Scanned PDFs contain page images rather than selectable text.
+              This converter does not perform OCR, so you may need to run OCR
+              with another tool before converting.
+            </p>
+          </details>
+          <details>
+            <summary>Will the Word document look exactly like my PDF?</summary>
+            <p>
+              Not always. Conversion can change spacing, fonts, or page layout,
+              especially in documents with columns, tables, or complex design.
+              Review the converted file before relying on it.
+            </p>
+          </details>
+          <details>
+            <summary>Is my PDF processed in my browser?</summary>
+            <p>
+              No. The PDF is sent to the QuickTools conversion server to create
+              the Word file. Read our{" "}
+              <Link to="/privacy">Privacy page</Link> for information about
+              file handling.
+            </p>
+          </details>
+        </section>
+
+        <nav className="pdf-word-related" aria-label="Related document tools">
+          <span>Need another format?</span>
+          <Link to="/word-to-pdf">Convert Word to PDF</Link>
+          <Link to="/">Explore all tools</Link>
+        </nav>
       </div>
     </main>
   );

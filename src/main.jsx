@@ -1,4 +1,4 @@
-import React, { useMemo, useRef, useState } from "react";
+import React, { lazy, Suspense, useMemo, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 import {
   ArrowDown, ArrowLeft, ArrowRight, Check, ChevronDown, Command, FileArchive,
@@ -18,28 +18,29 @@ import {
 } from "react-router-dom";
 import { RELATED_TOOLS, SEO_ROUTES } from "./seo/routes.js";
 import "./styles.css";
-import MergePDF from "./pages/MergePDF";
-import SplitPDF from "./pages/SplitPDF";
-import CompressPDF from "./pages/CompressPDF";
-import PDFToWord from "./pages/PDFToWord.jsx";
-import WordToPDF from "./pages/WordToPDF";
-import RotatePDF from "./pages/RotatePDF";
-import PDFToJPG from "./pages/PDFToJPG";
-import JPGToPDF from "./pages/JPGToPDF";
-import OrganizePDF from "./pages/OrganizePDF";
-import SignPDF from "./pages/SignPDF";
-import ProtectPDF from "./pages/ProtectPDF";
-import WatermarkPDF from "./pages/WatermarkPDF";
 import { Analytics } from "@vercel/analytics/react";
-import EditPDF from "./pages/EditPDF";
-import EditPDFUI from "./pages/EditPDFUI";
 import PageSEO from "./components/PageSEO";
-import InfoPages from "./pages/InfoPages";
-import TextCaseConverter from "./pages/TextCaseConverter";
-import QRCodeGenerator from "./pages/QRCodeGenerator";
-import TextToPDF from "./pages/TextToPDF";
-import ImageTools from "./pages/ImageTools";
-import OfficeToPDF from "./pages/OfficeToPDF";
+
+const MergePDF = lazy(() => import("./pages/MergePDF.jsx"));
+const SplitPDF = lazy(() => import("./pages/SplitPDF.jsx"));
+const CompressPDF = lazy(() => import("./pages/CompressPDF.jsx"));
+const PDFToWord = lazy(() => import("./pages/PDFToWord.jsx"));
+const WordToPDF = lazy(() => import("./pages/WordToPDF.jsx"));
+const RotatePDF = lazy(() => import("./pages/RotatePDF.jsx"));
+const PDFToJPG = lazy(() => import("./pages/PDFToJPG.jsx"));
+const JPGToPDF = lazy(() => import("./pages/JPGToPDF.jsx"));
+const OrganizePDF = lazy(() => import("./pages/OrganizePDF.jsx"));
+const SignPDF = lazy(() => import("./pages/SignPDF.jsx"));
+const ProtectPDF = lazy(() => import("./pages/ProtectPDF.jsx"));
+const WatermarkPDF = lazy(() => import("./pages/WatermarkPDF.jsx"));
+const EditPDF = lazy(() => import("./pages/EditPDF.jsx"));
+const EditPDFUI = lazy(() => import("./pages/EditPDFUI.jsx"));
+const InfoPages = lazy(() => import("./pages/InfoPages.jsx"));
+const TextCaseConverter = lazy(() => import("./pages/TextCaseConverter.jsx"));
+const QRCodeGenerator = lazy(() => import("./pages/QRCodeGenerator.jsx"));
+const TextToPDF = lazy(() => import("./pages/TextToPDF.jsx"));
+const ImageTools = lazy(() => import("./pages/ImageTools.jsx"));
+const OfficeToPDF = lazy(() => import("./pages/OfficeToPDF.jsx"));
 
 const tools = [
   { name: "Edit PDF", desc: "Add text, notes and shapes to your PDF.", category: "PDF", icon: FilePenLine, tint: "pink", featured: true },
@@ -608,36 +609,38 @@ function SiteFooter() {
 export function AppRoutes() {
   return (
     <>
-      <Routes>
-        <Route path="/" element={<App />} />
-        <Route path="/merge-pdf" element={<MergePDF />} />
-        <Route path="/split-pdf" element={<SplitPDF />} />
-        <Route path="/compress-pdf" element={<CompressPDF />} />
-        <Route path="/pdf-to-word" element={<PDFToWord />} />
-        <Route path="/word-to-pdf" element={<WordToPDF />} />
-        <Route path="/rotate-pdf" element={<RotatePDF />} />
-        <Route path="/organize-pdf" element={<OrganizePDF />} />
-        <Route path="/pdf-to-jpg" element={<PDFToJPG />} />
-        <Route path="/jpg-to-pdf" element={<JPGToPDF />} />
-        <Route path="/sign-pdf" element={<SignPDF />} />
-        <Route path="/protect-pdf" element={<ProtectPDF />} />
-        <Route path="/watermark-pdf" element={<WatermarkPDF />} />
-        <Route path="/edit-pdf" element={<EditPDF />} />
-        <Route path="/edit-pdf-ui" element={<EditPDFUI />} />
-        <Route path="/text-case-converter" element={<TextCaseConverter />} />
-        <Route path="/qr-code-generator" element={<QRCodeGenerator />} />
-        <Route path="/text-to-pdf" element={<TextToPDF />} />
-        <Route path="/resize-image" element={<ImageTools tool="resize-image" />} />
-        <Route path="/compress-image" element={<ImageTools tool="compress-image" />} />
-        <Route path="/crop-image" element={<ImageTools tool="crop-image" />} />
-        <Route path="/convert-image" element={<ImageTools tool="convert-image" />} />
-        <Route path="/add-text-to-image" element={<ImageTools tool="add-text-to-image" />} />
-        <Route path="/remove-background" element={<ImageTools tool="remove-background" />} />
-        <Route path="/excel-to-pdf" element={<OfficeToPDF tool="excel-to-pdf" />} />
-        <Route path="/powerpoint-to-pdf" element={<OfficeToPDF tool="powerpoint-to-pdf" />} />
-        <Route path="/support" element={<InfoPages page="support" />} />
-        <Route path="/privacy" element={<InfoPages page="privacy" />} />
-      </Routes>
+      <Suspense fallback={<div className="route-loading" role="status">Loading tool...</div>}>
+        <Routes>
+          <Route path="/" element={<App />} />
+          <Route path="/merge-pdf" element={<MergePDF />} />
+          <Route path="/split-pdf" element={<SplitPDF />} />
+          <Route path="/compress-pdf" element={<CompressPDF />} />
+          <Route path="/pdf-to-word" element={<PDFToWord />} />
+          <Route path="/word-to-pdf" element={<WordToPDF />} />
+          <Route path="/rotate-pdf" element={<RotatePDF />} />
+          <Route path="/organize-pdf" element={<OrganizePDF />} />
+          <Route path="/pdf-to-jpg" element={<PDFToJPG />} />
+          <Route path="/jpg-to-pdf" element={<JPGToPDF />} />
+          <Route path="/sign-pdf" element={<SignPDF />} />
+          <Route path="/protect-pdf" element={<ProtectPDF />} />
+          <Route path="/watermark-pdf" element={<WatermarkPDF />} />
+          <Route path="/edit-pdf" element={<EditPDF />} />
+          <Route path="/edit-pdf-ui" element={<EditPDFUI />} />
+          <Route path="/text-case-converter" element={<TextCaseConverter />} />
+          <Route path="/qr-code-generator" element={<QRCodeGenerator />} />
+          <Route path="/text-to-pdf" element={<TextToPDF />} />
+          <Route path="/resize-image" element={<ImageTools tool="resize-image" />} />
+          <Route path="/compress-image" element={<ImageTools tool="compress-image" />} />
+          <Route path="/crop-image" element={<ImageTools tool="crop-image" />} />
+          <Route path="/convert-image" element={<ImageTools tool="convert-image" />} />
+          <Route path="/add-text-to-image" element={<ImageTools tool="add-text-to-image" />} />
+          <Route path="/remove-background" element={<ImageTools tool="remove-background" />} />
+          <Route path="/excel-to-pdf" element={<OfficeToPDF tool="excel-to-pdf" />} />
+          <Route path="/powerpoint-to-pdf" element={<OfficeToPDF tool="powerpoint-to-pdf" />} />
+          <Route path="/support" element={<InfoPages page="support" />} />
+          <Route path="/privacy" element={<InfoPages page="privacy" />} />
+        </Routes>
+      </Suspense>
       <RelatedToolLinks />
       <SiteFooter />
     </>
